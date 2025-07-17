@@ -85,8 +85,13 @@
 {% endif %}
 
 <script>
-// JavaScript untuk fungsionalitas hapus massal
+// ===============================
+// Fungsionalitas Hapus Massal Siswa
+// ===============================
+
 let deleteModeActive = false;
+
+// Aktif/nonaktifkan mode hapus massal
 function toggleDeleteMode() {
     deleteModeActive = !deleteModeActive;
     const btn = document.getElementById('toggleDeleteModeBtn');
@@ -106,14 +111,20 @@ function toggleDeleteMode() {
         updateSelectedCount();
     }
 }
+
+// Centang/uncentang semua baris sekaligus
 function toggleAllCheckboxes(source) {
     document.querySelectorAll('.row-checkbox').forEach(checkbox => checkbox.checked = source.checked);
     updateSelectedCount();
 }
+
+// Update jumlah siswa yang dipilih
 function updateSelectedCount() {
     const count = document.querySelectorAll('.row-checkbox:checked').length;
     document.getElementById('selectedCount').textContent = `${count} siswa dipilih`;
 }
+
+// Event listener: update jumlah terpilih saat checkbox berubah
 document.querySelectorAll('.row-checkbox').forEach(cb => cb.addEventListener('change', updateSelectedCount));
 </script>
 

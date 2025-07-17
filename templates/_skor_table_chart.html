@@ -1,9 +1,9 @@
-<!-- Bagian Skor dan Grafik -->
+<!-- Bagian: Tabel dan Grafik Skor Kecerdasan (Anak, Orang Tua, Gabungan) -->
 <div class="mt-10">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
         <h2 class="text-2xl font-bold text-gray-800">Visualisasi Skor Kecerdasan</h2>
         
-        <!-- Checkbox untuk mengontrol grafik -->
+        <!-- Checkbox untuk menampilkan/menyembunyikan masing-masing grafik -->
         <div class="no-print flex items-center space-x-4 text-sm">
             <label class="flex items-center cursor-pointer">
                 <input type="checkbox" id="toggleAnak" checked class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
@@ -20,12 +20,11 @@
         </div>
     </div>
 
-    <!-- PERUBAHAN DI SINI: Mengubah items-start menjadi items-stretch -->
+    <!-- Layout: Tabel skor di kiri, grafik di kanan (responsive grid) -->
     <div class="grid grid-cols-1 lg:grid-cols-7 gap-8 items-stretch">
-        <!-- Kolom Tabel Skor -->
+        <!-- Tabel Skor Kecerdasan -->
         <div class="lg:col-span-3">
-            <!-- PERUBAHAN DI SINI: Menambahkan h-full agar div ini mengisi tinggi -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden h-full">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden h-full"><!-- h-full: agar tinggi sama dengan grafik -->
                 <table class="min-w-full">
                     <thead class="bg-gray-50">
                         <tr>
@@ -49,10 +48,9 @@
             </div>
         </div>
 
-        <!-- Kolom Grafik -->
+        <!-- Grafik Radar Kecerdasan (Chart.js) -->
         <div class="lg:col-span-4">
-             <!-- PERUBAHAN DI SINI: Menambahkan h-full agar div ini mengisi tinggi -->
-             <div class="bg-white p-4 rounded-lg shadow-md h-full">
+            <div class="bg-white p-4 rounded-lg shadow-md h-full"><!-- h-full: agar tinggi sama dengan tabel -->
                 <canvas id="miChart"
                     data-labels='{{ hasil.keys()|list|tojson }}'
                     data-anak='{{ hasil.values()|map(attribute="anak")|list|tojson }}'
@@ -62,4 +60,6 @@
             </div>
         </div>
     </div>
+</div>
+<!-- End Bagian Skor dan Grafik -->
 </div>

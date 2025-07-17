@@ -42,6 +42,7 @@
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ siswa.nama }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {# Nama wali, tampilkan fallback jika belum diisi #}
                     {% if siswa.nama_ortu %}
                         {{ siswa.nama_ortu }}
                         <span class="text-xs text-gray-400">({{ siswa.hubungan_wali or 'Wali' }})</span>
@@ -50,6 +51,7 @@
                     {% endif %}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                    {# Status kelengkapan tes: Lengkap jika semua tes selesai, Proses jika belum #}
                     {% set total_tes = 8 * 2 %}
                     {% if siswa.tes_diselesaikan >= total_tes %}
                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Lengkap</span>
@@ -63,6 +65,7 @@
             </tr>
             {% else %}
             <tr>
+                {# Tampilkan pesan jika belum ada data siswa #}
                 <td colspan="4" class="px-6 py-4 text-center text-gray-500">Belum ada data siswa.</td>
             </tr>
             {% endfor %}

@@ -7,7 +7,6 @@
     <p class="text-center text-gray-500 -mt-6 mb-8">Langkah pertama adalah mengisi data inti siswa untuk membuat berkas asesmen.</p>
 
     <form method="post" class="space-y-6">
-        <!-- ... (Semua field input tetap sama) ... -->
         <div>
             <label for="nama" class="block text-sm font-medium text-gray-700">Nama Lengkap Siswa</label>
             <input type="text" name="nama" id="nama" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
@@ -49,6 +48,7 @@
         </div>
 
         <div class="pt-4 flex justify-end items-center gap-4">
+            <!-- Tombol untuk mengisi data dummy secara otomatis -->
             <button type="button" onclick="fillDummyData()" class="inline-flex justify-center py-3 px-6 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Isi Data Acak
             </button>
@@ -57,7 +57,7 @@
             </button>
         </div>
     </form>
-    <!-- ... (Script fillDummyData tetap sama) ... -->
+    <!-- Fungsi untuk mengisi form dengan data dummy secara acak -->
     <script>
         function fillDummyData() {
             const firstNames = ["Adi", "Budi", "Citra", "Dewi", "Eka", "Fajar", "Gita", "Hadi", "Indah", "Joko"];

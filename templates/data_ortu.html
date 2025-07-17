@@ -13,7 +13,7 @@
                 <input type="text" name="nama_ortu" id="nama_ortu" value="{{ siswa.nama_ortu or '' }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
             </div>
             <div>
-                <!-- TAMBAHAN BARU: Dropdown Hubungan Wali -->
+                {# Dropdown hubungan wali, wajib diisi #}
                 <label for="hubungan_wali" class="block text-sm font-medium text-gray-700">Hubungan dengan Siswa</label>
                 <select name="hubungan_wali" id="hubungan_wali" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                     <option value="" disabled {% if not siswa.hubungan_wali %}selected{% endif %}>Pilih hubungan...</option>
@@ -42,6 +42,7 @@
         <div class="pt-4 flex justify-between items-center">
             <a href="{{ url_for('asesmen.profil_siswa', url_slug=siswa.url_slug) }}" class="text-sm text-gray-600 hover:underline">&larr; Kembali ke Profil Siswa</a>
             <div>
+                <!-- Tombol untuk mengisi data dummy secara otomatis -->
                 <button type="button" onclick="fillDummyData()" class="inline-flex justify-center py-3 px-6 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     Isi Data Acak
                 </button>
@@ -53,6 +54,7 @@
     </form>
 
     <script>
+        // Fungsi untuk mengisi form dengan data dummy secara acak
         function fillDummyData() {
             const parentFirstNames = ["Agus", "Bambang", "Siti", "Sri", "Hendra", "Rina", "Tono", "Wati"];
             const parentLastNames = ["Santoso", "Wijaya", "Hartono", "Mulyani", "Gunawan", "Lestari"];

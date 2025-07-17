@@ -6,7 +6,7 @@
     <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Modul Wawancara Orang Tua / Wali</h1>
     <p class="text-center text-gray-500 mb-8">Jawab pertanyaan berikut berdasarkan pengamatan Anda terhadap anak sehari-hari.</p>
 
-    {# Definisikan nama pendek untuk tab #}
+    {# Definisi nama pendek untuk tab kecerdasan #}
     {% set short_names = {
         'Linguistik': 'Bahasa',
         'Logis-Matematis': 'Logika',
@@ -19,7 +19,7 @@
     } %}
 
     <form method="post" id="assessment-form">
-        <!-- Pengaturan Bobot Penilaian -->
+        <!-- Pengaturan bobot penilaian observasi anak terhadap skor gabungan -->
         <div class="mb-10 p-6 bg-gray-50 border border-gray-200 rounded-lg">
             <h3 class="font-semibold text-lg text-gray-800">Pengaturan Bobot Penilaian</h3>
             <p class="text-sm text-gray-500 mt-1">Geser untuk mengatur pengaruh skor observasi anak terhadap skor gabungan.</p>
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <!-- Navigasi Tab -->
+        <!-- Navigasi tab kecerdasan -->
         <div class="mb-4 border-b border-gray-200">
             <ul class="grid grid-cols-4 md:grid-cols-8 text-sm font-medium text-center text-gray-500" id="myTab" role="tablist">
                 {% for kec in detail %}
@@ -42,7 +42,7 @@
             </ul>
         </div>
 
-        <!-- Konten Panel Tab -->
+        <!-- Panel isi pertanyaan wawancara per kecerdasan -->
         <div id="myTabContent">
             {% for kec, data in detail.items() %}
             <div class="tab-panel hidden p-4 rounded-lg bg-gray-50" id="panel-{{ loop.index }}" role="tabpanel" aria-labelledby="tab-{{ loop.index }}">
@@ -81,7 +81,6 @@
         </div>
 
         <div class="mt-10 pt-6 border-t flex justify-between items-center">
-            {# --- PERBAIKAN: Mengubah 'main' menjadi 'asesmen' --- #}
             <a href="{{ url_for('asesmen.profil_siswa', url_slug=siswa.url_slug) }}" class="text-sm text-gray-600 hover:underline">&larr; Kembali ke Profil Siswa</a>
             <div>
                 <button type="button" id="random-fill-button" class="inline-flex justify-center py-3 px-6 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
@@ -94,6 +93,7 @@
         </div>
     </form>
 
+    <!-- Script: fungsionalitas tab, validasi, random, slider bobot -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('assessment-form');
