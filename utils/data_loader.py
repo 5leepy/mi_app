@@ -1,14 +1,20 @@
+
+# =====================================
 # utils/data_loader.py
+#
+# Fungsi untuk memuat data JSON profil MI dan aktivitas dari folder /data
+# =====================================
+
 import json
 import os
 
 def load_all_data():
     """
-    Memuat semua file JSON dari folder /data dan mengembalikannya 
-    dalam sebuah dictionary.
+    Memuat semua file JSON dari folder /data dan mengembalikannya dalam dictionary.
+    - File yang dimuat: mi_profiles_up.json, mi_profiles_low.json, mi_aktivitas_tk.json
+    - Path folder /data dicari relatif dari root proyek
     """
-    # Menggunakan path relatif dari file ini untuk menemukan folder 'data'
-    # ../ akan naik satu level dari /utils ke root folder proyek
+    # Cari folder 'data' relatif dari file ini (naik 1 level ke root)
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     data_folder = os.path.join(base_dir, 'data')
 
@@ -23,8 +29,8 @@ def load_all_data():
             activities = json.load(f)
 
         print("[INFO] Data JSON (profil dan aktivitas) berhasil dimuat ke memori.")
-        
-        # Mengembalikan semua data dalam satu dictionary
+
+        # Kembalikan semua data dalam satu dictionary
         return {
             'profiles_up': profiles_up,
             'profiles_low': profiles_low,

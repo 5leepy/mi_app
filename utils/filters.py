@@ -1,13 +1,15 @@
-# utils/filters.py
+
+
+# Custom Jinja filters untuk aplikasi Flask
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-import markdown2 # <-- Impor library yang baru diinstal
+import markdown2
 
 def usia(tanggal_lahir_str):
     """
-    Menghitung usia dari string tanggal lahir (YYYY-MM-DD)
-    dan mengembalikannya dalam format 'X tahun Y bulan'.
+    Hitung usia dari string tanggal lahir (YYYY-MM-DD),
+    hasil: 'X tahun Y bulan'.
     """
     if not tanggal_lahir_str:
         return "-"
@@ -21,17 +23,14 @@ def usia(tanggal_lahir_str):
 
 def markdown_filter(text):
     """
-    Mengubah teks dengan sintaks Markdown (seperti **bold**) dan
-    baris baru menjadi format HTML yang benar.
+    Konversi teks markdown (termasuk baris baru) ke HTML.
     """
     if text is None:
         return ''
-    # Menggunakan markdown2 untuk konversi.
-    # 'break-on-newline' akan mengubah baris baru menjadi <br>
     return markdown2.markdown(text, extras=["break-on-newline"])
 
-# Dictionary untuk mendaftarkan semua filter agar mudah diimpor
+# Daftar filter custom yang siap didaftarkan ke Jinja
 ALL_FILTERS = {
     'usia': usia,
-    'markdown': markdown_filter, # <-- Gunakan filter markdown yang baru
+    'markdown': markdown_filter,
 }

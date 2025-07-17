@@ -1,4 +1,11 @@
+
+
+
+# =====================================
 # routes/asesmen.py
+#
+# Blueprint & view untuk asesmen (asesor & manajemen siswa)
+# =====================================
 
 from flask import Blueprint, render_template, request, redirect, url_for, session, current_app, flash
 from database import get_db
@@ -9,10 +16,15 @@ import os
 import math
 import secrets
 
-# Nama blueprint diubah menjadi 'asesmen'
+
+
+# Blueprint asesmen (tanpa prefix, default root)
 bp = Blueprint('asesmen', __name__)
 
-# --- FUNGSI BANTUAN (Tidak ada perubahan) ---
+
+###############################
+# Fungsi bantuan
+###############################
 def get_activity_recommendations(top_intelligences_set, activities_data):
     scored_activities = []
     for activity in activities_data:
@@ -49,42 +61,50 @@ def proses_skor_form(form, siswa_id, sumber, db):
         except (ValueError, IndexError): continue
     db.commit()
 
-# --- RUTE UTAMA & MANAJEMEN KASUS ---
+
+
+###############################
+# Rute utama & manajemen kasus
+###############################
 
 @bp.route('/')
 def index():
-    # Halaman utama sekarang mengarah ke dasbor asesor
+    # Redirect ke dashboard asesor
     return redirect(url_for('asesmen.asesor_dashboard'))
 
 @bp.route('/dashboard')
 def asesor_dashboard():
-    """Halaman utama untuk asesor, menampilkan daftar kasus."""
+    """
+    Dashboard asesor:
+    - Menampilkan daftar siswa (pagination)
+    - Statistik jumlah siswa & tes
+    """
     db = get_db()
     page = request.args.get('page', 1, type=int)
     per_page = 10
     offset = (page - 1) * per_page
-    
+
     total_siswa = db.execute('SELECT COUNT(id) FROM siswa').fetchone()[0]
-    
+
     siswa_list = db.execute(
         '''
         SELECT id, nama, asal_sekolah, nama_ortu, hubungan_wali, url_slug,
         (SELECT COUNT(*) FROM hasil_tes WHERE siswa_id = siswa.id) as tes_diselesaikan
         FROM siswa ORDER BY id DESC LIMIT ? OFFSET ?
         ''', (per_page, offset)).fetchall()
-    
+
     total_pages = math.ceil(total_siswa / per_page)
-    
+
     return render_template(
-        'asesor_dashboard.html', 
+        'asesor_dashboard.html',
         siswa_list=siswa_list,
         total_siswa=total_siswa,
         current_page=page,
         total_pages=total_pages
     )
 
-# --- (Sisa dari file ini berisi rute-rute asesmen yang sudah ada) ---
-# --- (Pastikan semua url_for() di dalamnya mengarah ke 'asesmen.nama_fungsi') ---
+
+
 
 @bp.route('/tambah-siswa', methods=['GET', 'POST'])
 def tambah_siswa():

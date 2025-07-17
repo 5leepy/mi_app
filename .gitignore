@@ -1,32 +1,38 @@
-# Python bytecode files
+
+# =====================================
+# .gitignore
+#
+# Daftar file dan folder yang diabaikan oleh git untuk project ini
+# =====================================
+
+# File bytecode Python
 **/*.pyc
 __pycache__/
 
 # Virtual environment
 venv/
 
-# Database files (assuming SQLite)
+# File database SQLite
 *.sqlite
 *.sqlite3
 
+# File konfigurasi sensitif (jika ada)
+# config.py # Uncomment jika config.py berisi kredensial
+*.env
 
-# Configuration files that might contain sensitive info
-# config.py # Jika mengandung kredensial sensitif
-*.env 
+# File dan folder editor/IDE
+.vscode/
+.idea/
+*.swp
+*.bak
 
-# Editor/IDE specific files
-.vscode/ 
-.idea/ 
-*.swp 
-*.bak 
-
-# Log files
+# File log
 *.log
 
-# Docker related (if not part of the build process)
-docker-compose.yml 
-Dockerfile 
+# File Docker (jika tidak ingin di-track)
+docker-compose.yml
+Dockerfile
 
-# Generated files
+# File hasil generate
 *.csv
 *.xlsx

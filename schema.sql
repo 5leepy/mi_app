@@ -1,6 +1,15 @@
--- schema.sql
 
+-- =====================================
+-- schema.sql
+--
+-- Skema database SQLite untuk aplikasi MI Assessment
+-- Berisi definisi tabel utama: siswa, hasil_tes, user (admin)
+-- =====================================
+
+-- =====================================
 -- Tabel siswa
+-- Menyimpan data identitas siswa
+-- =====================================
 DROP TABLE IF EXISTS siswa;
 CREATE TABLE siswa (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,21 +31,27 @@ CREATE TABLE siswa (
     tanggal TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabel hasil_tes (Struktur diubah untuk menyimpan jawaban individual)
+-- =====================================
+-- Tabel hasil_tes
+-- Menyimpan jawaban individual per siswa, sumber (anak/ortu), dan kecerdasan
+-- =====================================
 DROP TABLE IF EXISTS hasil_tes;
 CREATE TABLE hasil_tes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     siswa_id INTEGER NOT NULL,
     sumber TEXT NOT NULL CHECK(sumber IN ('anak', 'ortu')),
     kecerdasan TEXT NOT NULL,
-    pertanyaan_index INTEGER NOT NULL, -- Menyimpan indeks pertanyaan (e.g., 0, 1, 2)
+    pertanyaan_index INTEGER NOT NULL, -- Indeks pertanyaan (misal: 0, 1, 2)
     nilai INTEGER NOT NULL,
     FOREIGN KEY (siswa_id) REFERENCES siswa(id) ON DELETE CASCADE,
-    -- Mencegah jawaban ganda untuk pertanyaan yang sama
+    -- Cegah jawaban ganda untuk pertanyaan yang sama
     UNIQUE(siswa_id, sumber, kecerdasan, pertanyaan_index) 
 );
 
--- Tabel admin (opsional untuk login)
+-- =====================================
+-- Tabel user (admin)
+-- Menyimpan data user admin untuk login aplikasi
+-- =====================================
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

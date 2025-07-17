@@ -1,38 +1,35 @@
+
+// =====================================
 // static/js/chart_mi.js
+//
+// Script untuk menampilkan radar chart MI (Multiple Intelligences)
+// pada halaman hasil asesmen menggunakan Chart.js
+// =====================================
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Ambil data dari <canvas>
+    // Ambil elemen <canvas> chart
     const canvas = document.getElementById("miChart");
     if (!canvas) return;
 
+    // Ambil data label dan nilai dari atribut data-* pada canvas
     const labelsFull = JSON.parse(canvas.dataset.labels);
-    
-    // Untuk Radar Chart, label penuh lebih baik agar tidak terlalu sempit
-    // const shortLabels = labelsFull.map(label => {
-    //   const singkat = {
-    //     "Linguistik": "Ling", "Logis-Matematis": "Log", "Spasial": "Spa",
-    //     "Kinestetik": "Kin", "Musikal": "Mus", "Interpersonal": "Inter",
-    //     "Intrapersonal": "Intra", "Naturalis": "Nat"
-    //   };
-    //   return singkat[label] || label;
-    // });
-
+    // Data skor dikali 20 agar skala 1-5 menjadi 0-100 (persen)
     const dataAnak = JSON.parse(canvas.dataset.anak).map(x => x * 20);
     const dataOrtu = JSON.parse(canvas.dataset.ortu).map(x => x * 20);
     const dataGabungan = JSON.parse(canvas.dataset.gabungan).map(x => x * 20);
 
     const ctx = canvas.getContext("2d");
-    
-    // Hancurkan chart lama jika ada untuk mencegah duplikasi
+
+    // Hancurkan chart lama jika ada (untuk mencegah duplikasi saat reload)
     if (window.miChart instanceof Chart) {
         window.miChart.destroy();
     }
 
-    // Buat chart baru dengan tipe 'radar'
+    // Inisialisasi radar chart baru
     window.miChart = new Chart(ctx, {
-      type: "radar", // *** PERUBAHAN UTAMA DI SINI ***
+      type: "radar",
       data: {
-        labels: labelsFull, // Menggunakan label penuh untuk kejelasan
+        labels: labelsFull, // Label kategori MI
         datasets: [
           {
             label: "Nilai Anak",
@@ -72,13 +69,12 @@ document.addEventListener('DOMContentLoaded', function () {
           },
         ],
       },
+
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { 
-            display: false,
-          },
+          legend: { display: false }, // Sembunyikan legend
           tooltip: {
             enabled: true,
             callbacks: {
@@ -88,23 +84,16 @@ document.addEventListener('DOMContentLoaded', function () {
               }
             }
           },
-          // Datalabels seringkali terlalu ramai untuk radar chart, jadi kita nonaktifkan
-          datalabels: {
-            display: false,
-          },
+          datalabels: { display: false }, // Nonaktifkan datalabels agar chart tidak ramai
         },
-        // Konfigurasi skala untuk radar chart menggunakan 'r'
+        // Skala radar chart
         scales: {
           r: {
-            angleLines: {
-              display: true
-            },
+            angleLines: { display: true },
             suggestedMin: 0,
             suggestedMax: 100,
             pointLabels: {
-              font: {
-                size: 10
-              },
+              font: { size: 10 },
               color: '#333'
             },
             ticks: {
@@ -114,11 +103,9 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         }
       },
-      // Hapus plugin annotation karena tidak relevan untuk radar chart
-      // plugins: [ChartDataLabels, window['chartjs-plugin-annotation']]
     });
 
-    // Fungsi untuk checkbox tetap sama, tetapi kita atur ulang status awalnya
+    // Inisialisasi checkbox untuk toggle dataset
     const toggleMap = [
       ["toggleAnak", 1],
       ["toggleOrtu", 0],
@@ -128,10 +115,8 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleMap.forEach(([checkboxId, datasetIndex]) => {
       const checkbox = document.getElementById(checkboxId);
       if (!checkbox) return;
-
-      // Atur status checkbox sesuai dengan data yang ditampilkan/disembunyikan
+      // Atur status awal checkbox sesuai dataset
       checkbox.checked = !window.miChart.data.datasets[datasetIndex].hidden;
-
       checkbox.addEventListener("change", function () {
         window.miChart.data.datasets[datasetIndex].hidden = !this.checked;
         window.miChart.update();

@@ -1,4 +1,20 @@
+
+# =====================================
 # bank_soal.py
+#
+# Kumpulan soal, aktivitas, dan pertanyaan asesmen MI (Multiple Intelligences)
+# untuk anak TK dan pertanyaan untuk orang tua.
+#
+# Struktur utama:
+# - BANK_SOAL: dict berisi kategori MI (Linguistik, Logis-Matematis, dst)
+#   - Setiap kategori berisi subkategori 'TK' (untuk anak TK)
+#     - 'anak': list aktivitas asesmen untuk anak
+#     - 'ortu': list pertanyaan asesmen untuk orang tua
+#     - 'max_anak_score', 'max_ortu_score': skor maksimum
+#
+# Setiap aktivitas/pertanyaan memiliki:
+# - aktivitas/pertanyaan, tujuan, bahan, instruksi, rubrik, opsi_serupa
+# =====================================
 
 BANK_SOAL = {
     "Linguistik": {
@@ -64,13 +80,14 @@ BANK_SOAL = {
             ],
             "max_anak_score": 9
         },
-        "ortu": [ # Dipindahkan ke sini
+        # --- Pertanyaan untuk Orang Tua ---
+        "ortu": [
             {"pertanyaan": "Apakah anak Anda suka mendengarkan cerita atau dongeng? Seberapa sering dia meminta Anda membacakan buku?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda suka berbicara, bercerita, atau bertanya banyak hal?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda mudah menghafal lagu atau sajak anak-anak?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Bagaimana kemampuan anak Anda dalam memahami instruksi atau petunjuk verbal yang kompleks?", "rubrik": {0: "Tidak", 1: "Ya"}}
         ],
-        "max_ortu_score": 4 # Dipindahkan ke sini
+        "max_ortu_score": 4
     },
     "Logis-Matematis": {
         "TK": {
@@ -135,13 +152,14 @@ BANK_SOAL = {
             ],
             "max_anak_score": 9
         },
-        "ortu": [ # Dipindahkan ke sini
+        # --- Pertanyaan untuk Orang Tua ---
+        "ortu": [
             {"pertanyaan": "Apakah anak Anda suka menghitung benda-benda di sekitarnya? Sampai berapa ia bisa menghitung?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda tertarik pada pola, seperti pola warna atau bentuk?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda suka memecahkan teka-teki sederhana, puzzle angka, atau mencari tahu bagaimana sesuatu bekerja?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda sering bertanya 'mengapa' atau 'bagaimana'?", "rubrik": {0: "Tidak", 1: "Ya"}}
         ],
-        "max_ortu_score": 4 # Dipindahkan ke sini
+        "max_ortu_score": 4
     },
     "Spasial": {
         "TK": {
@@ -206,13 +224,14 @@ BANK_SOAL = {
             ],
             "max_anak_score": 9
         },
-        "ortu": [ # Dipindahkan ke sini
+        # --- Pertanyaan untuk Orang Tua ---
+        "ortu": [
             {"pertanyaan": "Apakah anak Anda suka menggambar, melukis, atau mewarnai? Seberapa detail atau kreatif gambarnya?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda suka bermain balok, Lego, atau mainan konstruksi lainnya?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda mudah menemukan jalan di tempat baru atau mengingat arah?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda menikmati permainan puzzle atau menemukan perbedaan pada gambar?", "rubrik": {0: "Tidak", 1: "Ya"}}
         ],
-        "max_ortu_score": 4 # Dipindahkan ke sini
+        "max_ortu_score": 4
     },
     "Kinestetik": {
         "TK": {
@@ -277,13 +296,14 @@ BANK_SOAL = {
             ],
             "max_anak_score": 9
         },
-        "ortu": [ # Dipindahkan ke sini
+        # --- Pertanyaan untuk Orang Tua ---
+        "ortu": [
             {"pertanyaan": "Apakah anak Anda sangat aktif secara fisik?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda memiliki koordinasi mata-tangan yang baik?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda suka menari atau meniru gerakan dari televisi/orang lain?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda terampil dalam aktivitas yang melibatkan tangan seperti bermain plastisin atau menggunting?", "rubrik": {0: "Tidak", 1: "Ya"}}
         ],
-        "max_ortu_score": 4 # Dipindahkan ke sini
+        "max_ortu_score": 4
     },
     "Musikal": {
         "TK": {
@@ -348,13 +368,14 @@ BANK_SOAL = {
             ],
             "max_anak_score": 9
         },
-        "ortu": [ # Dipindahkan ke sini
+        # --- Pertanyaan untuk Orang Tua ---
+        "ortu": [
             {"pertanyaan": "Apakah anak Anda suka bernyanyi atau bersenandung, bahkan saat sendirian?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda peka terhadap irama musik?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda bisa membedakan berbagai jenis suara?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda menunjukkan minat pada alat musik atau mencoba membuat suara musikal?", "rubrik": {0: "Tidak", 1: "Ya"}}
         ],
-        "max_ortu_score": 4 # Dipindahkan ke sini
+        "max_ortu_score": 4
     },
     "Interpersonal": {
         "TK": {
@@ -419,13 +440,13 @@ BANK_SOAL = {
             ],
             "max_anak_score": 9
         },
-        "ortu": [ # Dipindahkan ke sini
+        "ortu": [
             {"pertanyaan": "Apakah anak Anda mudah berteman atau berinteraksi dengan anak-anak lain?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Bagaimana anak Anda bereaksi ketika melihat orang lain sedih/marah?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda suka bermain kelompok atau berbagi mainan?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda cenderung menjadi pemimpin atau pengikut dalam permainan?", "rubrik": {0: "Tidak", 1: "Ya"}}
         ],
-        "max_ortu_score": 4 # Dipindahkan ke sini
+        "max_ortu_score": 4
     },
     "Intrapersonal": {
         "TK": {
@@ -490,13 +511,13 @@ BANK_SOAL = {
             ],
             "max_anak_score": 9
         },
-        "ortu": [ # Dipindahkan ke sini
+        "ortu": [
             {"pertanyaan": "Apakah anak Anda suka bermain sendiri dan fokus pada aktivitasnya?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda bisa mengungkapkan perasaannya sendiri?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda tahu apa yang ia suka dan tidak suka?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda memiliki cita-cita atau keinginan yang kuat?", "rubrik": {0: "Tidak", 1: "Ya"}}
         ],
-        "max_ortu_score": 4 # Dipindahkan ke sini
+        "max_ortu_score": 4
     },
     "Naturalis": {
         "TK": {
@@ -542,12 +563,12 @@ BANK_SOAL = {
             ],
             "max_anak_score": 6
         },
-        "ortu": [ # Dipindahkan ke sini
+        "ortu": [
             {"pertanyaan": "Apakah anak Anda suka berada di luar ruangan, seperti di taman atau kebun?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda tertarik pada hewan atau tumbuhan?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda suka bertanya tentang fenomena alam?", "rubrik": {0: "Tidak", 1: "Ya"}},
             {"pertanyaan": "Apakah anak Anda menunjukkan kepedulian terhadap lingkungan atau makhluk hidup?", "rubrik": {0: "Tidak", 1: "Ya"}}
         ],
-        "max_ortu_score": 4 # Dipindahkan ke sini
+        "max_ortu_score": 4
     }
 }

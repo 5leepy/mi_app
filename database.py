@@ -1,8 +1,17 @@
+
+# =====================================
 # database.py
+#
+# Modul utilitas database untuk aplikasi Flask:
+# - Koneksi dan penutupan database SQLite
+# - Inisialisasi tabel dari schema.sql
+# - Integrasi dengan Flask CLI
+# =====================================
 
 import sqlite3
 from flask import g
 from config import DATABASE
+
 
 # ---------------------------
 # Fungsi koneksi database
@@ -19,8 +28,9 @@ def close_db(e=None):
     if db is not None:
         db.close()
 
+
 # ---------------------------
-# Fungsi inisialisasi tabel
+# Fungsi inisialisasi tabel database
 # ---------------------------
 
 def init_db():
@@ -29,16 +39,18 @@ def init_db():
         db.executescript(f.read())
     print("[DEBUG] Database diinisialisasi dengan schema.sql")
 
+
 # ---------------------------
-# Fungsi init_app Flask
+# Fungsi untuk integrasi database dengan Flask app
 # ---------------------------
 
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
 
+
 # ---------------------------
-# CLI Command untuk init db
+# Perintah CLI untuk inisialisasi database
 # ---------------------------
 
 import click
@@ -46,6 +58,9 @@ from flask import current_app
 
 @click.command('init-db')
 def init_db_command():
-    """Clear data dan buat tabel baru."""
+    """
+    Clear data dan buat tabel baru (reset database).
+    Jalankan perintah ini melalui Flask CLI: flask init-db
+    """
     init_db()
     click.echo('Database berhasil diinisialisasi.')
