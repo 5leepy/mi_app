@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Super Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-center text-gray-800">Super Admin Dashboard</h1>
+    <p class="text-center text-gray-500 mt-2">Kelola semua data mentah aplikasi.</p>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="p-4 mb-4 text-sm rounded-lg 
+        {% if category == 'success' %} bg-green-100 text-green-700 
+        {% elif category == 'error' %} bg-red-100 text-red-700
+        {% else %} bg-yellow-100 text-yellow-700 {% endif %}" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="mb-4 p-4 bg-gray-50 rounded-lg flex justify-between items-center">
+    <p class="text-sm text-gray-600">Total Siswa: <strong>{{ total_siswa }}</strong></p>
+    <div>
+        <button id="toggleDeleteModeBtn" onclick="toggleDeleteMode()" class="px-4 py-2 border border-red-300 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100">
+            Aktifkan Mode Hapus
+        </button>
+    </div>
+</div>
+
+<form id="bulkActionForm" method="post" action="{{ url_for('admin.bulk_delete_siswa') }}" onsubmit="return confirm('Anda yakin ingin menghapus data yang dipilih? Aksi ini tidak dapat dibatalkan.')">
+    <div class="overflow-x-auto bg-white rounded-lg shadow">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="delete-col hidden px-4 py-3">
+                        <input type="checkbox" id="selectAll" onclick="toggleAllCheckboxes(this)">
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Siswa</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Wali</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Bobot (A/W)</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Laporan</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for siswa in siswa_list %}
+                <tr>
+                    <td class="delete-col hidden px-4 py-4">
+                        <input type="checkbox" name="selected_ids" value="{{ siswa.id }}" class="row-checkbox">
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ siswa.nama }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ siswa.nama_ortu or '-' }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                        {% if siswa.bobot_anak is not none %}{{ '%d' % (siswa.bobot_anak * 100) }}/{{ '%d' % ((1 - siswa.bobot_anak) * 100) }}{% else %}N/A{% endif %}%
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                        <a href="{{ url_for('asesmen.tampil_laporan', url_slug=siswa.url_slug) }}" class="text-blue-600 hover:text-blue-900" target="_blank">Lihat</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">Belum ada data.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="deleteActionContainer" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex justify-between items-center">
+        <span id="selectedCount" class="text-sm font-medium text-red-700">0 siswa dipilih</span>
+        <button type="submit" class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700">
+            Hapus yang Dipilih
+        </button>
+    </div>
+</form>
+
+{% if total_pages > 1 %}
+<div class="mt-6 flex justify-between items-center text-sm">
+    <div>Halaman <strong>{{ current_page }}</strong> dari <strong>{{ total_pages }}</strong></div>
+    <div class="flex space-x-2">
+        {% if current_page > 1 %}<a href="{{ url_for('admin.dashboard', page=current_page - 1) }}" class="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50">&laquo; Sebelumnya</a>{% endif %}
+        {% if current_page < total_pages %}<a href="{{ url_for('admin.dashboard', page=current_page + 1) }}" class="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50">Berikutnya &raquo;</a>{% endif %}
+    </div>
+</div>
+{% endif %}
+
+<script>
+// JavaScript untuk fungsionalitas hapus massal
+let deleteModeActive = false;
+function toggleDeleteMode() {
+    deleteModeActive = !deleteModeActive;
+    const btn = document.getElementById('toggleDeleteModeBtn');
+    const deleteCols = document.querySelectorAll('.delete-col');
+    const deleteContainer = document.getElementById('deleteActionContainer');
+    if (deleteModeActive) {
+        btn.textContent = 'Batalkan Mode Hapus';
+        btn.classList.add('bg-yellow-200');
+        deleteContainer.classList.remove('hidden');
+        deleteCols.forEach(col => col.classList.remove('hidden'));
+    } else {
+        btn.textContent = 'Aktifkan Mode Hapus';
+        btn.classList.remove('bg-yellow-200');
+        deleteContainer.classList.add('hidden');
+        document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = false);
+        document.getElementById('selectAll').checked = false;
+        updateSelectedCount();
+    }
+}
+function toggleAllCheckboxes(source) {
+    document.querySelectorAll('.row-checkbox').forEach(checkbox => checkbox.checked = source.checked);
+    updateSelectedCount();
+}
+function updateSelectedCount() {
+    const count = document.querySelectorAll('.row-checkbox:checked').length;
+    document.getElementById('selectedCount').textContent = `${count} siswa dipilih`;
+}
+document.querySelectorAll('.row-checkbox').forEach(cb => cb.addEventListener('change', updateSelectedCount));
+</script>
+
+{% endblock %}

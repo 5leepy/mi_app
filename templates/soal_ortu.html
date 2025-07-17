@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Wawancara Wali{% endblock %}
+
+{% block content %}
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Modul Wawancara Orang Tua / Wali</h1>
+    <p class="text-center text-gray-500 mb-8">Jawab pertanyaan berikut berdasarkan pengamatan Anda terhadap anak sehari-hari.</p>
+
+    {# Definisikan nama pendek untuk tab #}
+    {% set short_names = {
+        'Linguistik': 'Bahasa',
+        'Logis-Matematis': 'Logika',
+        'Spasial': 'Visual',
+        'Kinestetik': 'Gerak',
+        'Musikal': 'Musik',
+        'Interpersonal': 'Sosial',
+        'Intrapersonal': 'Diri',
+        'Naturalis': 'Alam'
+    } %}
+
+    <form method="post" id="assessment-form">
+        <!-- Pengaturan Bobot Penilaian -->
+        <div class="mb-10 p-6 bg-gray-50 border border-gray-200 rounded-lg">
+            <h3 class="font-semibold text-lg text-gray-800">Pengaturan Bobot Penilaian</h3>
+            <p class="text-sm text-gray-500 mt-1">Geser untuk mengatur pengaruh skor observasi anak terhadap skor gabungan.</p>
+            <div class="mt-4 flex items-center gap-4">
+                <input type="range" id="weightSlider" name="bobot_anak_persen" min="0" max="100" value="{{ (siswa.bobot_anak * 100) if siswa.bobot_anak is not none else 70 }}" step="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                <span id="weightValue" class="font-bold text-blue-600 text-lg w-28 text-center">Anak: {{ (siswa.bobot_anak * 100)|int if siswa.bobot_anak is not none else 70 }}%</span>
+            </div>
+        </div>
+
+        <!-- Navigasi Tab -->
+        <div class="mb-4 border-b border-gray-200">
+            <ul class="grid grid-cols-4 md:grid-cols-8 text-sm font-medium text-center text-gray-500" id="myTab" role="tablist">
+                {% for kec in detail %}
+                <li role="presentation">
+                    <button class="tab-button inline-block w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="tab-{{ loop.index }}" data-tabs-target="#panel-{{ loop.index }}" type="button" role="tab" aria-controls="panel-{{ loop.index }}" aria-selected="false">
+                        {{ short_names.get(kec, kec) }}
+                    </button>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Konten Panel Tab -->
+        <div id="myTabContent">
+            {% for kec, data in detail.items() %}
+            <div class="tab-panel hidden p-4 rounded-lg bg-gray-50" id="panel-{{ loop.index }}" role="tabpanel" aria-labelledby="tab-{{ loop.index }}">
+                {% if data.ortu %}
+                    <ol class="list-decimal list-inside space-y-6">
+                        {% for item in data.ortu %}
+                            {% set base_name = kec ~ '_ortu_' ~ loop.index0 %}
+                            <li>
+                                <p class="text-gray-800">{{ item.pertanyaan }}</p>
+                                <div class="mt-2 flex items-center space-x-6">
+                                    {% for skor, deskripsi in item.rubrik.items() %}
+                                        <label class="flex items-center p-3 rounded-md hover:bg-green-50 transition-colors cursor-pointer">
+                                            <input type="radio" name="{{ base_name }}" value="{{ skor }}" required
+                                                {% if jawaban_lama.get(base_name) == skor %}checked{% endif %}
+                                                class="h-4 w-4 text-green-600 border-gray-300 focus:ring-green-500">
+                                            <span class="ml-3 text-sm font-medium text-gray-700">{{ deskripsi }}</span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                {% else %}
+                    <p class="text-gray-500 italic">Tidak ada soal wawancara untuk jenjang ini.</p>
+                {% endif %}
+
+                {% if not loop.last %}
+                <div class="mt-8 text-right">
+                    <button type="button" class="next-tab-button px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" data-next-tab-id="tab-{{ loop.index + 1 }}">
+                        Lanjut &rarr;
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-10 pt-6 border-t flex justify-between items-center">
+            {# --- PERBAIKAN: Mengubah 'main' menjadi 'asesmen' --- #}
+            <a href="{{ url_for('asesmen.profil_siswa', url_slug=siswa.url_slug) }}" class="text-sm text-gray-600 hover:underline">&larr; Kembali ke Profil Siswa</a>
+            <div>
+                <button type="button" id="random-fill-button" class="inline-flex justify-center py-3 px-6 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    🎲 Isi Acak
+                </button>
+                 <button type="submit" id="submit-button" disabled class="ml-4 inline-flex justify-center py-3 px-8 border border-transparent shadow-lg text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none">
+                    Simpan Jawaban
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('assessment-form');
+            const submitButton = document.getElementById('submit-button');
+            const randomFillButton = document.getElementById('random-fill-button');
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+            const nextTabButtons = document.querySelectorAll('.next-tab-button');
+
+            const totalQuestions = new Set(Array.from(form.querySelectorAll('input[type="radio"]')).map(r => r.name)).size;
+
+            function checkFormCompleteness() {
+                const answeredQuestions = new Set(Array.from(form.querySelectorAll('input[type="radio"]:checked')).map(r => r.name)).size;
+                submitButton.disabled = answeredQuestions !== totalQuestions;
+            }
+
+            function activateTab(tabButton) {
+                tabs.forEach(btn => {
+                    btn.setAttribute('aria-selected', 'false');
+                    btn.classList.remove('text-blue-600', 'border-blue-600', 'bg-blue-50');
+                    btn.classList.add('border-transparent', 'hover:text-gray-600', 'hover:border-gray-300');
+                });
+                tabPanels.forEach(panel => panel.classList.add('hidden'));
+
+                tabButton.setAttribute('aria-selected', 'true');
+                tabButton.classList.add('text-blue-600', 'border-blue-600', 'bg-blue-50');
+                
+                const targetPanel = document.querySelector(tabButton.dataset.tabsTarget);
+                if (targetPanel) {
+                    targetPanel.classList.remove('hidden');
+                }
+                form.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            tabs.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    activateTab(button);
+                });
+            });
+
+            nextTabButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const nextTab = document.getElementById(button.dataset.nextTabId);
+                    if (nextTab) activateTab(nextTab);
+                });
+            });
+            
+            randomFillButton.addEventListener('click', () => {
+                const radioGroups = {};
+                form.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    if (!radioGroups[radio.name]) radioGroups[radio.name] = [];
+                    radioGroups[radio.name].push(radio);
+                });
+                for (const groupName in radioGroups) {
+                    const group = radioGroups[groupName];
+                    const randomIndex = Math.floor(Math.random() * group.length);
+                    group[randomIndex].checked = true;
+                }
+                checkFormCompleteness();
+            });
+
+            form.addEventListener('change', checkFormCompleteness);
+
+            if (tabs.length > 0) activateTab(tabs[0]);
+            checkFormCompleteness();
+
+            // Logika untuk Slider
+            const slider = document.getElementById('weightSlider');
+            const display = document.getElementById('weightValue');
+            slider.addEventListener('input', function() {
+                display.textContent = `Anak: ${this.value}%`;
+            });
+        });
+    </script>
+{% endblock %}

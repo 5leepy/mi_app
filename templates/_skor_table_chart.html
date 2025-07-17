@@ -1,0 +1,65 @@
+<!-- Bagian Skor dan Grafik -->
+<div class="mt-10">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+        <h2 class="text-2xl font-bold text-gray-800">Visualisasi Skor Kecerdasan</h2>
+        
+        <!-- Checkbox untuk mengontrol grafik -->
+        <div class="no-print flex items-center space-x-4 text-sm">
+            <label class="flex items-center cursor-pointer">
+                <input type="checkbox" id="toggleAnak" checked class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                <span class="ml-2 text-gray-700">Anak</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+                <input type="checkbox" id="toggleOrtu" checked class="h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-400">
+                <span class="ml-2 text-gray-700">Orang Tua</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+                <input type="checkbox" id="toggleGabungan" checked class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                <span class="ml-2 text-gray-700">Gabungan</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- PERUBAHAN DI SINI: Mengubah items-start menjadi items-stretch -->
+    <div class="grid grid-cols-1 lg:grid-cols-7 gap-8 items-stretch">
+        <!-- Kolom Tabel Skor -->
+        <div class="lg:col-span-3">
+            <!-- PERUBAHAN DI SINI: Menambahkan h-full agar div ini mengisi tinggi -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden h-full">
+                <table class="min-w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kecerdasan</th>
+                            <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider col-anak">Anak</th>
+                            <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider col-ortu">Ortu</th>
+                            <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider col-gabungan">Gabungan</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for kec, skor in hasil.items() %}
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{{ kec }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 text-center font-semibold col-anak">{{ '%.0f' % (skor.anak * 20) }}%</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 text-center font-semibold col-ortu">{{ '%.0f' % (skor.ortu * 20) }}%</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 text-center font-semibold col-gabungan">{{ '%.0f' % (skor.gabungan * 20) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Kolom Grafik -->
+        <div class="lg:col-span-4">
+             <!-- PERUBAHAN DI SINI: Menambahkan h-full agar div ini mengisi tinggi -->
+             <div class="bg-white p-4 rounded-lg shadow-md h-full">
+                <canvas id="miChart"
+                    data-labels='{{ hasil.keys()|list|tojson }}'
+                    data-anak='{{ hasil.values()|map(attribute="anak")|list|tojson }}'
+                    data-ortu='{{ hasil.values()|map(attribute="ortu")|list|tojson }}'
+                    data-gabungan='{{ hasil.values()|map(attribute="gabungan")|list|tojson }}'>
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>

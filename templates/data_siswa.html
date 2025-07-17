@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Tambah Siswa Baru{% endblock %}
+
+{% block content %}
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-8">Registrasi Berkas Siswa Baru</h1>
+    <p class="text-center text-gray-500 -mt-6 mb-8">Langkah pertama adalah mengisi data inti siswa untuk membuat berkas asesmen.</p>
+
+    <form method="post" class="space-y-6">
+        <!-- ... (Semua field input tetap sama) ... -->
+        <div>
+            <label for="nama" class="block text-sm font-medium text-gray-700">Nama Lengkap Siswa</label>
+            <input type="text" name="nama" id="nama" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="tempat_lahir" class="block text-sm font-medium text-gray-700">Tempat Lahir</label>
+                <input type="text" name="tempat_lahir" id="tempat_lahir" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+            </div>
+            <div>
+                <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
+                <input type="date" name="tanggal_lahir" id="tanggal_lahir" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+            </div>
+        </div>
+
+        <div>
+            <label for="asal_sekolah" class="block text-sm font-medium text-gray-700">Asal Sekolah</label>
+            <input type="text" name="asal_sekolah" id="asal_sekolah" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="kelas" class="block text-sm font-medium text-gray-700">Kelas</label>
+                <input type="text" name="kelas" id="kelas" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+            </div>
+            <div>
+                <label for="jenjang" class="block text-sm font-medium text-gray-700">Jenjang</label>
+                <select name="jenjang" id="jenjang" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                    <option value="TK">TK</option>
+                    <option value="SD">SD</option>
+                </select>
+            </div>
+        </div>
+        
+        <div>
+            <label for="kota" class="block text-sm font-medium text-gray-700">Kota Tes Diambil</label>
+            <input type="text" name="kota" id="kota" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+        </div>
+
+        <div class="pt-4 flex justify-end items-center gap-4">
+            <button type="button" onclick="fillDummyData()" class="inline-flex justify-center py-3 px-6 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Isi Data Acak
+            </button>
+            <button type="submit" class="inline-flex justify-center py-3 px-8 border border-transparent shadow-md text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105">
+                Buat Berkas & Lanjut &rarr;
+            </button>
+        </div>
+    </form>
+    <!-- ... (Script fillDummyData tetap sama) ... -->
+    <script>
+        function fillDummyData() {
+            const firstNames = ["Adi", "Budi", "Citra", "Dewi", "Eka", "Fajar", "Gita", "Hadi", "Indah", "Joko"];
+            const lastNames = ["Prasetyo", "Wibowo", "Lestari", "Nugroho", "Susanto", "Wijaya", "Kusuma", "Halim"];
+            const cities = ["Surabaya", "Jakarta", "Bandung", "Medan", "Semarang", "Yogyakarta"];
+            const schools = ["Tunas Bangsa", "Pelita Harapan", "Ceria", "Negeri 1", "Bintang Kecil"];
+            const kelasOptions = ["A", "B"];
+
+            const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const birthYear = currentYear - (Math.floor(Math.random() * 4) + 5); // Usia 5-8 tahun
+            const birthMonth = Math.floor(Math.random() * 12);
+            const birthDay = Math.floor(Math.random() * 28) + 1;
+            const birthDate = new Date(birthYear, birthMonth, birthDay);
+            const birthDateString = birthDate.toISOString().split('T')[0];
+
+            document.getElementById('nama').value = `${getRandom(firstNames)} ${getRandom(lastNames)}`;
+            document.getElementById('tempat_lahir').value = getRandom(cities);
+            document.getElementById('tanggal_lahir').value = birthDateString;
+            document.getElementById('asal_sekolah').value = getRandom(schools);
+            document.getElementById('kelas').value = getRandom(kelasOptions);
+            document.getElementById('jenjang').value = "TK";
+            document.getElementById('kota').value = getRandom(cities);
+        }
+    </script>
+{% endblock %}

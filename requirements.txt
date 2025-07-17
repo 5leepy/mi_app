@@ -1,0 +1,4 @@
+Flask
+python-dateutil
+markdown2
+gunicorn

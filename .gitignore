@@ -1,0 +1,32 @@
+# Python bytecode files
+**/*.pyc
+__pycache__/
+
+# Virtual environment
+venv/
+
+# Database files (assuming SQLite)
+*.sqlite
+*.sqlite3
+
+
+# Configuration files that might contain sensitive info
+# config.py # Jika mengandung kredensial sensitif
+*.env 
+
+# Editor/IDE specific files
+.vscode/ 
+.idea/ 
+*.swp 
+*.bak 
+
+# Log files
+*.log
+
+# Docker related (if not part of the build process)
+docker-compose.yml 
+Dockerfile 
+
+# Generated files
+*.csv
+*.xlsx

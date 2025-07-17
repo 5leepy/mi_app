@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Profil Asesmen Siswa{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-center text-gray-800">Profil Asesmen Siswa</h1>
+    <p class="text-center text-2xl font-semibold text-blue-600 mt-2">{{ siswa.nama }}</p>
+    <p class="text-center text-gray-500 mt-1">Jenjang: {{ siswa.jenjang }} | Usia: {{ siswa.tanggal_lahir | usia }}</p>
+</div>
+
+<!-- Menampilkan Flash Message -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="p-4 mb-4 text-sm rounded-lg 
+        {% if category == 'success' %} bg-green-100 text-green-700 
+        {% elif category == 'error' %} bg-red-100 text-red-700
+        {% else %} bg-yellow-100 text-yellow-700 {% endif %}" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="space-y-6">
+    <!-- Modul Data Wali -->
+    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex justify-between items-center">
+        <div>
+            <h3 class="text-lg font-bold text-gray-700">1. Data Orang Tua / Wali</h3>
+            <p class="text-sm text-gray-500">Informasi kontak dan latar belakang wali.</p>
+        </div>
+        <div class="text-right">
+            {% if status.data_wali %}
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    <svg class="-ml-1 mr-1.5 h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    Selesai
+                </span>
+                {# --- PERBAIKAN: Mengubah 'main' menjadi 'asesmen' --- #}
+                <a href="{{ url_for('asesmen.isi_data_wali', url_slug=siswa.url_slug) }}" class="ml-4 text-sm text-blue-600 hover:underline">Lihat/Edit</a>
+            {% else %}
+                <a href="{{ url_for('asesmen.isi_data_wali', url_slug=siswa.url_slug) }}" class="px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                    Isi Data &rarr;
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Modul Observasi Anak -->
+    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex justify-between items-center">
+        <div>
+            <h3 class="text-lg font-bold text-gray-700">2. Observasi Aktivitas Anak</h3>
+            <p class="text-sm text-gray-500">Penilaian berdasarkan pengamatan aktivitas anak.</p>
+        </div>
+        <div class="text-right">
+            {% if status.observasi_anak %}
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    <svg class="-ml-1 mr-1.5 h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    Selesai
+                </span>
+                {# --- PERBAIKAN: Mengubah 'main' menjadi 'asesmen' --- #}
+                <a href="{{ url_for('asesmen.observasi_anak', url_slug=siswa.url_slug) }}" class="ml-4 text-sm text-blue-600 hover:underline">Lihat/Edit</a>
+            {% else %}
+                <a href="{{ url_for('asesmen.observasi_anak', url_slug=siswa.url_slug) }}" class="px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 {% if not status.data_wali %}disabled:opacity-50 cursor-not-allowed{% endif %}" {% if not status.data_wali %}title="Harap isi data wali terlebih dahulu" disabled{% endif %}>
+                    Mulai Observasi &rarr;
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Modul Wawancara Wali -->
+    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex justify-between items-center">
+        <div>
+            <h3 class="text-lg font-bold text-gray-700">3. Wawancara Orang Tua / Wali</h3>
+            <p class="text-sm text-gray-500">Pertanyaan untuk dijawab oleh wali berdasarkan pengamatan sehari-hari.</p>
+        </div>
+        <div class="text-right">
+            {% if status.wawancara_wali %}
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    <svg class="-ml-1 mr-1.5 h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    Selesai
+                </span>
+                {# --- PERBAIKAN: Mengubah 'main' menjadi 'asesmen' --- #}
+                 <a href="{{ url_for('asesmen.wawancara_wali', url_slug=siswa.url_slug) }}" class="ml-4 text-sm text-blue-600 hover:underline">Lihat/Edit</a>
+            {% else %}
+                <a href="{{ url_for('asesmen.wawancara_wali', url_slug=siswa.url_slug) }}" class="px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 {% if not status.data_wali %}disabled:opacity-50 cursor-not-allowed{% endif %}" {% if not status.data_wali %}title="Harap isi data wali terlebih dahulu" disabled{% endif %}>
+                    Mulai Wawancara &rarr;
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Bagian Laporan -->
+<div class="mt-12 pt-8 border-t-2 border-dashed">
+    <h2 class="text-2xl font-bold text-center text-gray-800">Laporan Akhir</h2>
+    <div class="mt-4 text-center">
+        {% if status.observasi_anak and status.wawancara_wali %}
+            <p class="text-gray-600 mb-4">Semua modul asesmen telah dilengkapi. Laporan siap untuk dibuat.</p>
+            {# --- PERBAIKAN: Mengubah 'main' menjadi 'asesmen' --- #}
+            <a href="{{ url_for('asesmen.tampil_laporan', url_slug=siswa.url_slug) }}" class="inline-block bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-green-700 transition-transform transform hover:scale-105">
+                📊 Buat & Lihat Laporan
+            </a>
+        {% else %}
+            <p class="text-gray-500 mb-4">Harap lengkapi semua modul asesmen (Observasi Anak dan Wawancara Wali) untuk dapat membuat laporan akhir.</p>
+            <button class="inline-block bg-gray-400 text-white font-bold py-3 px-8 rounded-lg cursor-not-allowed" disabled>
+                📊 Buat & Lihat Laporan
+            </button>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

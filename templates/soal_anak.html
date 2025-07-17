@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Observasi Anak{% endblock %}
+
+{% block content %}
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Modul Observasi Aktivitas Anak</h1>
+    <p class="text-center text-gray-500 mb-8">Amati dan nilai aktivitas anak berdasarkan rubrik yang tersedia.</p>
+
+    {# Definisikan nama pendek untuk tab #}
+    {% set short_names = {
+        'Linguistik': 'Bahasa',
+        'Logis-Matematis': 'Logika',
+        'Spasial': 'Visual',
+        'Kinestetik': 'Gerak',
+        'Musikal': 'Musik',
+        'Interpersonal': 'Sosial',
+        'Intrapersonal': 'Diri',
+        'Naturalis': 'Alam'
+    } %}
+
+    <form method="post" id="assessment-form">
+        <!-- Navigasi Tab -->
+        <div class="mb-4 border-b border-gray-200">
+            <ul class="grid grid-cols-4 md:grid-cols-8 text-sm font-medium text-center text-gray-500" id="myTab" role="tablist">
+                {% for kec in detail %}
+                <li role="presentation">
+                    <button class="tab-button inline-block w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="tab-{{ loop.index }}" data-tabs-target="#panel-{{ loop.index }}" type="button" role="tab" aria-controls="panel-{{ loop.index }}" aria-selected="false">
+                        {{ short_names.get(kec, kec) }}
+                    </button>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Konten Panel Tab -->
+        <div id="myTabContent">
+            {% for kec, data in detail.items() %}
+            <div class="tab-panel hidden p-4 rounded-lg bg-gray-50" id="panel-{{ loop.index }}" role="tabpanel" aria-labelledby="tab-{{ loop.index }}">
+                {% if data.anak %}
+                    <ol class="list-decimal list-inside space-y-8">
+                        {% for item in data.anak %}
+                            {% set base_name = kec ~ '_anak_' ~ loop.index0 %}
+                            <li>
+                                <strong class="text-gray-800">{{ item.aktivitas }}</strong>
+                                <div class="mt-3 space-y-2 pl-4">
+                                    {% for skor, deskripsi in item.rubrik.items() %}
+                                        <label class="flex items-center p-3 rounded-md hover:bg-blue-50 transition-colors cursor-pointer">
+                                            <input type="radio" name="{{ base_name }}" value="{{ skor }}" required 
+                                                {% if jawaban_lama.get(base_name) == skor %}checked{% endif %}
+                                                class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                            <span class="ml-3 text-sm text-gray-600">
+                                                <span class="font-bold text-gray-900">{{ skor }}</span> - {{ deskripsi }}
+                                            </span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                {% else %}
+                    <p class="text-gray-500 italic">Tidak ada soal observasi untuk jenjang ini.</p>
+                {% endif %}
+
+                {% if not loop.last %}
+                <div class="mt-8 text-right">
+                    <button type="button" class="next-tab-button px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" data-next-tab-id="tab-{{ loop.index + 1 }}">
+                        Lanjut &rarr;
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-10 pt-6 border-t flex justify-between items-center">
+            {# --- PERBAIKAN: Mengubah 'main' menjadi 'asesmen' --- #}
+            <a href="{{ url_for('asesmen.profil_siswa', url_slug=siswa.url_slug) }}" class="text-sm text-gray-600 hover:underline">&larr; Kembali ke Profil Siswa</a>
+            <div>
+                <button type="button" id="random-fill-button" class="inline-flex justify-center py-3 px-6 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    🎲 Isi Acak
+                </button>
+                 <button type="submit" id="submit-button" disabled class="ml-4 inline-flex justify-center py-3 px-8 border border-transparent shadow-lg text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none">
+                    Simpan Jawaban
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        // Script untuk fungsionalitas tab, validasi, dan navigasi
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('assessment-form');
+            const submitButton = document.getElementById('submit-button');
+            const randomFillButton = document.getElementById('random-fill-button');
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+            const nextTabButtons = document.querySelectorAll('.next-tab-button');
+
+            const totalQuestions = new Set(Array.from(form.querySelectorAll('input[type="radio"]')).map(r => r.name)).size;
+
+            function checkFormCompleteness() {
+                const answeredQuestions = new Set(Array.from(form.querySelectorAll('input[type="radio"]:checked')).map(r => r.name)).size;
+                submitButton.disabled = answeredQuestions !== totalQuestions;
+            }
+
+            function activateTab(tabButton) {
+                tabs.forEach(btn => {
+                    btn.setAttribute('aria-selected', 'false');
+                    btn.classList.remove('text-blue-600', 'border-blue-600', 'bg-blue-50');
+                    btn.classList.add('border-transparent', 'hover:text-gray-600', 'hover:border-gray-300');
+                });
+                tabPanels.forEach(panel => panel.classList.add('hidden'));
+
+                tabButton.setAttribute('aria-selected', 'true');
+                tabButton.classList.add('text-blue-600', 'border-blue-600', 'bg-blue-50');
+                
+                const targetPanel = document.querySelector(tabButton.dataset.tabsTarget);
+                if (targetPanel) {
+                    targetPanel.classList.remove('hidden');
+                }
+                form.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            tabs.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    activateTab(button);
+                });
+            });
+
+            nextTabButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const nextTab = document.getElementById(button.dataset.nextTabId);
+                    if (nextTab) activateTab(nextTab);
+                });
+            });
+            
+            randomFillButton.addEventListener('click', () => {
+                const radioGroups = {};
+                form.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    if (!radioGroups[radio.name]) radioGroups[radio.name] = [];
+                    radioGroups[radio.name].push(radio);
+                });
+                for (const groupName in radioGroups) {
+                    const group = radioGroups[groupName];
+                    const randomIndex = Math.floor(Math.random() * group.length);
+                    group[randomIndex].checked = true;
+                }
+                checkFormCompleteness();
+            });
+
+            form.addEventListener('change', checkFormCompleteness);
+
+            if (tabs.length > 0) activateTab(tabs[0]);
+            checkFormCompleteness();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,130 @@
+[
+  {
+    "aktivitas_utama": "Teater/Drama",
+    "deskripsi": "Melatih ekspresi diri, kepercayaan diri, menghafal naskah, dan memahami karakter.",
+    "kecerdasan_primer": ["Linguistik", "Kinestetik", "Interpersonal"],
+    "kecerdasan_sekunder": ["Intrapersonal"],
+    "alternatif_formal": "Kelas Public Speaking Anak, Kelas Improvisasi",
+    "alternatif_rumah": "Bermain peran (role-playing) cerita dongeng, teater boneka, atau membuat drama radio dengan merekam suara."
+  },
+  {
+    "aktivitas_utama": "Jurnalistik Cilik",
+    "deskripsi": "Melatih kemampuan bertanya, mendengarkan, menyusun informasi, dan menuliskannya secara runut.",
+    "kecerdasan_primer": ["Linguistik", "Interpersonal"],
+    "kecerdasan_sekunder": ["Intrapersonal", "Logis-Matematis"],
+    "alternatif_formal": "Klub Debat, Klub Literasi, Podcasting Anak",
+    "alternatif_rumah": "Bermain menjadi 'wartawan' yang mewawancarai anggota keluarga, atau membuat 'vlog' sederhana dengan ponsel tentang mainan favoritnya."
+  },
+  {
+    "aktivitas_utama": "Membatik/Kerajinan",
+    "deskripsi": "Mengenal warisan budaya, melatih kesabaran, ketelitian, dan kepekaan pada pola serta desain.",
+    "kecerdasan_primer": ["Spasial", "Kinestetik (halus)"],
+    "kecerdasan_sekunder": ["Intrapersonal", "Naturalis"],
+    "alternatif_formal": "Kelas melukis, membuat gerabah/keramik, kelas seni kriya.",
+    "alternatif_rumah": "Teknik jumputan (tie-dye), 'membatik' di atas kertas dengan krayon dan cat air, atau membuat kolase dari kain perca dan daun kering."
+  },
+  {
+    "aktivitas_utama": "Pencak Silat",
+    "deskripsi": "Bela diri khas Indonesia yang melatih disiplin, olah tubuh, kepercayaan diri, dan penghormatan pada tradisi.",
+    "kecerdasan_primer": ["Kinestetik", "Spasial"],
+    "kecerdasan_sekunder": ["Intrapersonal", "Logis-Matematis"],
+    "alternatif_formal": "Karate, Taekwondo, Capoeira, Judo Anak.",
+    "alternatif_rumah": "Kelas yoga anak, atau bermain 'menjadi pendekar' yang fokus pada gerakan keseimbangan dan menirukan pose-pose jurus sederhana."
+  },
+  {
+    "aktivitas_utama": "Angklung/Gamelan",
+    "deskripsi": "Belajar memainkan alat musik tradisional secara bersama-sama, melatih kerja sama tim dan kepekaan ritme.",
+    "kecerdasan_primer": ["Musikal", "Interpersonal"],
+    "kecerdasan_sekunder": ["Kinestetik", "Logis-Matematis"],
+    "alternatif_formal": "Paduan Suara, Marching Band, Ansambel Musik.",
+    "alternatif_rumah": "Membuat 'orkestra dapur' dengan panci dan sendok, atau bermain 'lingkaran ritme' dengan tepuk tangan bersama keluarga."
+  },
+  {
+    "aktivitas_utama": "Klub Robotik",
+    "deskripsi": "Merancang, membangun, dan memprogram robot untuk menyelesaikan misi. Melatih logika dan pemecahan masalah.",
+    "kecerdasan_primer": ["Logis-Matematis", "Spasial"],
+    "kecerdasan_sekunder": ["Kinestetik", "Intrapersonal"],
+    "alternatif_formal": "Kelas Coding, Klub Sains, Kelas Elektronika Dasar.",
+    "alternatif_rumah": "Bermain dengan LEGO atau balok konstruksi, mencoba merakit mainan sesuai buku instruksi, atau bermain aplikasi coding visual seperti ScratchJr."
+  },
+  {
+    "aktivitas_utama": "Kelas Tari",
+    "deskripsi": "Melatih koordinasi, kekuatan, kelenturan, memori gerak, dan ekspresi diri melalui tarian.",
+    "kecerdasan_primer": ["Kinestetik", "Musikal"],
+    "kecerdasan_sekunder": ["Spasial", "Interpersonal"],
+    "alternatif_formal": "Senam ritmik, ice skating, cheerleading.",
+    "alternatif_rumah": "Menari bebas mengikuti musik, meniru gerakan dari video tarian anak, atau bermain 'patung menari' saat musik berhenti."
+  },
+  {
+    "aktivitas_utama": "Bulu Tangkis/Tenis",
+    "deskripsi": "Olahraga raket yang melatih kecepatan, refleks, strategi, dan koordinasi mata-tangan.",
+    "kecerdasan_primer": ["Kinestetik", "Spasial"],
+    "kecerdasan_sekunder": ["Logis-Matematis", "Interpersonal (ganda)"],
+    "alternatif_formal": "Tenis meja, squash, voli.",
+    "alternatif_rumah": "Bermain 'pukulan balon' dengan raket, atau memukul kok ke dinding untuk melatih feeling dan koordinasi secara mandiri."
+  },
+  {
+    "aktivitas_utama": "Tim Olahraga",
+    "deskripsi": "Melatih kerja sama tim, strategi, komunikasi, dan keterampilan motorik kasar (sepak bola, basket).",
+    "kecerdasan_primer": ["Kinestetik", "Interpersonal"],
+    "kecerdasan_sekunder": ["Spasial", "Logis-Matematis"],
+    "alternatif_formal": "Futsal, mini-soccer, baseball anak.",
+    "alternatif_rumah": "Bermain lempar tangkap bola dalam lingkaran, atau permainan tradisional beregu seperti benteng atau gobak sodor."
+  },
+  {
+    "aktivitas_utama": "Les Instrumen",
+    "deskripsi": "Belajar memainkan alat musik, membaca not balok, dan memahami harmoni serta melodi.",
+    "kecerdasan_primer": ["Musikal"],
+    "kecerdasan_sekunder": ["Logis-Matematis", "Intrapersonal"],
+    "alternatif_formal": "Kursus komposisi musik digital, kursus vokal.",
+    "alternatif_rumah": "Belajar dengan aplikasi piano/gitar virtual, atau bereksperimen dengan alat musik sederhana seperti pianika atau recorder."
+  },
+  {
+    "aktivitas_utama": "Pramuka/Kepanduan",
+    "deskripsi": "Belajar keterampilan hidup, kerja sama tim, kepemimpinan, dan cinta pada alam.",
+    "kecerdasan_primer": ["Interpersonal", "Naturalis", "Kinestetik"],
+    "kecerdasan_sekunder": ["Logis-Matematis"],
+    "alternatif_formal": "Palang Merah Remaja (PMR), Pecinta Alam.",
+    "alternatif_rumah": "Berkemah di halaman belakang, belajar membuat simpul tali, atau melakukan 'misi kebaikan' di lingkungan sekitar."
+  },
+  {
+    "aktivitas_utama": "Berkebun",
+    "deskripsi": "Belajar tentang siklus hidup tanaman, kesabaran, dan tanggung jawab merawat makhluk hidup.",
+    "kecerdasan_primer": ["Naturalis"],
+    "kecerdasan_sekunder": ["Kinestetik", "Logis-Matematis"],
+    "alternatif_formal": "Klub Sains, Agrikultur, Hidroponik.",
+    "alternatif_rumah": "Menanam tanaman yang cepat tumbuh (seperti tauge atau kangkung) di pot kecil milik sendiri, atau membuat 'kebun mini' dari botol bekas."
+  },
+  {
+    "aktivitas_utama": "Congklak/Dakon",
+    "deskripsi": "Permainan tradisional yang melatih strategi, berhitung, kesabaran, dan kemampuan mengambil giliran.",
+    "kecerdasan_primer": ["Logis-Matematis"],
+    "kecerdasan_sekunder": ["Kinestetik (halus)", "Interpersonal"],
+    "alternatif_formal": "Klub Catur, Klub Go (Igo).",
+    "alternatif_rumah": "Bermain permainan papan (board games) strategis lainnya seperti Ludo atau Monopoli Junior."
+  },
+  {
+    "aktivitas_utama": "Yoga Anak",
+    "deskripsi": "Melatih kesadaran tubuh, fokus, keseimbangan, kelenturan, dan teknik relaksasi.",
+    "kecerdasan_primer": ["Intrapersonal", "Kinestetik"],
+    "kecerdasan_sekunder": ["Spasial"],
+    "alternatif_formal": "Kelas meditasi anak, kelas mindfulness.",
+    "alternatif_rumah": "Mengikuti video yoga anak di rumah, atau bermain meniru pose-pose hewan yang menenangkan."
+  },
+  {
+    "aktivitas_utama": "Kelas Memasak",
+    "deskripsi": "Belajar mengikuti resep, mengenal bahan, melatih motorik halus, dan memahami proses kimia sederhana.",
+    "kecerdasan_primer": ["Logis-Matematis", "Kinestetik"],
+    "kecerdasan_sekunder": ["Naturalis", "Linguistik"],
+    "alternatif_formal": "Kursus membuat kue/pastry.",
+    "alternatif_rumah": "Menjadi 'asisten koki' di dapur, membantu menakar bahan, mengaduk adonan, atau menghias kue."
+  },
+  {
+    "aktivitas_utama": "Fotografi/Videografi",
+    "deskripsi": "Belajar tentang komposisi visual, sudut pandang, pencahayaan, dan cara bercerita melalui gambar.",
+    "kecerdasan_primer": ["Spasial", "Linguistik"],
+    "kecerdasan_sekunder": ["Intrapersonal", "Interpersonal"],
+    "alternatif_formal": "Kelas desain grafis, melukis, membuat film pendek.",
+    "alternatif_rumah": "Proyek foto dengan tema (misal: 'cari 10 benda merah di rumah'), atau membuat video stop-motion sederhana dengan mainan."
+  }
+]

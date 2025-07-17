@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Data Orang Tua / Wali{% endblock %}
+
+{% block content %}
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-8">Modul Data Orang Tua / Wali</h1>
+    <p class="text-center text-gray-500 -mt-6 mb-8">Lengkapi informasi mengenai wali yang mendampingi siswa.</p>
+
+    <form method="post" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="nama_ortu" class="block text-sm font-medium text-gray-700">Nama Orang Tua / Wali</label>
+                <input type="text" name="nama_ortu" id="nama_ortu" value="{{ siswa.nama_ortu or '' }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+            </div>
+            <div>
+                <!-- TAMBAHAN BARU: Dropdown Hubungan Wali -->
+                <label for="hubungan_wali" class="block text-sm font-medium text-gray-700">Hubungan dengan Siswa</label>
+                <select name="hubungan_wali" id="hubungan_wali" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                    <option value="" disabled {% if not siswa.hubungan_wali %}selected{% endif %}>Pilih hubungan...</option>
+                    <option value="Ibu" {% if siswa.hubungan_wali == 'Ibu' %}selected{% endif %}>Ibu</option>
+                    <option value="Ayah" {% if siswa.hubungan_wali == 'Ayah' %}selected{% endif %}>Ayah</option>
+                    <option value="Paman" {% if siswa.hubungan_wali == 'Paman' %}selected{% endif %}>Paman</option>
+                    <option value="Bibi" {% if siswa.hubungan_wali == 'Bibi' %}selected{% endif %}>Bibi</option>
+                    <option value="Kakek" {% if siswa.hubungan_wali == 'Kakek' %}selected{% endif %}>Kakek</option>
+                    <option value="Nenek" {% if siswa.hubungan_wali == 'Nenek' %}selected{% endif %}>Nenek</option>
+                    <option value="Guru" {% if siswa.hubungan_wali == 'Guru' %}selected{% endif %}>Guru</option>
+                    <option value="Lainnya" {% if siswa.hubungan_wali == 'Lainnya' %}selected{% endif %}>Lainnya</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <label for="no_hp" class="block text-sm font-medium text-gray-700">No. Handphone (WhatsApp)</label>
+            <input type="tel" name="no_hp" id="no_hp" value="{{ siswa.no_hp or '' }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" placeholder="Contoh: 08123456789">
+        </div>
+
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Alamat Email</label>
+            <input type="email" name="email" id="email" value="{{ siswa.email or '' }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" placeholder="contoh@email.com">
+        </div>
+
+        <div class="pt-4 flex justify-between items-center">
+            <a href="{{ url_for('asesmen.profil_siswa', url_slug=siswa.url_slug) }}" class="text-sm text-gray-600 hover:underline">&larr; Kembali ke Profil Siswa</a>
+            <div>
+                <button type="button" onclick="fillDummyData()" class="inline-flex justify-center py-3 px-6 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Isi Data Acak
+                </button>
+                <button type="submit" class="ml-4 inline-flex justify-center py-3 px-8 border border-transparent shadow-md text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-transform transform hover:scale-105">
+                    Simpan Data Wali
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        function fillDummyData() {
+            const parentFirstNames = ["Agus", "Bambang", "Siti", "Sri", "Hendra", "Rina", "Tono", "Wati"];
+            const parentLastNames = ["Santoso", "Wijaya", "Hartono", "Mulyani", "Gunawan", "Lestari"];
+            const relations = ["Ibu", "Ayah", "Paman", "Bibi", "Kakek", "Nenek", "Guru"];
+
+            const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+            const firstName = getRandom(parentFirstNames);
+            const lastName = getRandom(parentLastNames);
+            const fullName = `${firstName} ${lastName}`;
+            const emailName = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${Math.floor(Math.random() * 100)}`;
+
+            document.getElementById('nama_ortu').value = fullName;
+            document.getElementById('no_hp').value = `081${Math.floor(100000000 + Math.random() * 900000000)}`;
+            document.getElementById('email').value = `${emailName}@example.com`;
+            document.getElementById('hubungan_wali').value = getRandom(relations);
+        }
+    </script>
+{% endblock %}
