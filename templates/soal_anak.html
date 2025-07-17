@@ -41,18 +41,55 @@
                         {% for item in data.anak %}
                             {% set base_name = kec ~ '_anak_' ~ loop.index0 %}
                             <li>
-                                <strong class="text-gray-800">{{ item.aktivitas }}</strong>
+                                <strong class="text-gray-800 text-lg">{{ item.aktivitas }}</strong>
                                 <div class="mt-3 space-y-2 pl-4">
-                                    {% for skor, deskripsi in item.rubrik.items() %}
-                                        <label class="flex items-center p-3 rounded-md hover:bg-blue-50 transition-colors cursor-pointer">
-                                            <input type="radio" name="{{ base_name }}" value="{{ skor }}" required 
-                                                {% if jawaban_lama.get(base_name) == skor %}checked{% endif %}
-                                                class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
-                                            <span class="ml-3 text-sm text-gray-600">
-                                                <span class="font-bold text-gray-900">{{ skor }}</span> - {{ deskripsi }}
-                                            </span>
-                                        </label>
-                                    {% endfor %}
+                                    <p class="text-sm text-gray-700"><strong>Tujuan:</strong> {{ item.tujuan }}</p>
+                                    <p class="text-sm text-gray-700"><strong>Bahan:</strong> {{ item.bahan }}</p>
+                                    <div class="text-sm text-gray-700 prose prose-sm max-w-none">
+                                        <strong>Instruksi untuk Asesor:</strong><br>
+                                        {{ item.instruksi | markdown | safe }}
+                                    </div>
+
+                                    {# Tombol Bantuan untuk Opsi Serupa #}
+                                    <button type="button" class="mt-4 text-blue-600 hover:text-blue-800 text-sm font-semibold flex items-center" onclick="toggleHelp('help-{{ kec }}-{{ loop.index0 }}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        Lihat Bantuan/Opsi Serupa
+                                    </button>
+                                    <div id="help-{{ kec }}-{{ loop.index0 }}" class="hidden mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                                        <h5 class="font-bold text-blue-800 mb-2">Opsi Aktivitas Serupa:</h5>
+                                        {% if item.opsi_serupa %}
+                                            <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                                                {% for opsi in item.opsi_serupa %}
+                                                    <li>
+                                                        <strong>{{ opsi.nama }}</strong>: {{ opsi.deskripsi_aktivitas }}
+                                                        <br>
+                                                        <span class="italic text-gray-600">Tujuan Opsi: {{ opsi.tujuan_opsi }}</span>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <p class="text-sm text-gray-600 italic">Tidak ada opsi serupa yang tersedia.</p>
+                                        {% endif %}
+                                    </div>
+
+                                    {# Rubrik Penilaian #}
+                                    <div class="mt-6 border-t pt-4">
+                                        <h4 class="font-semibold text-gray-800 mb-2">Rubrik Penilaian:</h4>
+                                        <div class="space-y-2">
+                                            {% for skor, deskripsi in item.rubrik.items() %}
+                                                <label class="flex items-center p-3 rounded-md hover:bg-blue-50 transition-colors cursor-pointer">
+                                                    <input type="radio" name="{{ base_name }}" value="{{ skor }}" required 
+                                                        {% if jawaban_lama.get(base_name) == skor %}checked{% endif %}
+                                                        class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                                    <span class="ml-3 text-sm text-gray-600">
+                                                        <span class="font-bold text-gray-900">{{ skor }}</span> - {{ deskripsi }}
+                                                    </span>
+                                                </label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         {% endfor %}
@@ -73,7 +110,6 @@
         </div>
 
         <div class="mt-10 pt-6 border-t flex justify-between items-center">
-            {# --- PERBAIKAN: Mengubah 'main' menjadi 'asesmen' --- #}
             <a href="{{ url_for('asesmen.profil_siswa', url_slug=siswa.url_slug) }}" class="text-sm text-gray-600 hover:underline">&larr; Kembali ke Profil Siswa</a>
             <div>
                 <button type="button" id="random-fill-button" class="inline-flex justify-center py-3 px-6 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
@@ -87,6 +123,14 @@
     </form>
 
     <script>
+        // Fungsi untuk menampilkan/menyembunyikan bantuan
+        function toggleHelp(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.toggle('hidden');
+            }
+        }
+
         // Script untuk fungsionalitas tab, validasi, dan navigasi
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('assessment-form');
