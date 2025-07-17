@@ -46,7 +46,7 @@ BANK_SOAL = {
                     "aktivitas": "Mengulang Kalimat",
                     "tujuan": "Mengukur memori pendengaran jangka pendek, pemahaman sintaksis, dan artikulasi.",
                     "bahan": "Tidak ada.",
-                    "instruksi": "Aku akan mengucapkan sebuah kalimat, lalu kamu ulangi persis seperti yang aku katakan. Oke? Dengarkan baik-baik.\" Berikan 3-5 kalimat dengan panjang bervariasi (mulai dari 5 kata, meningkat hingga 8-10 kata jika anak berhasil).\n\n* **Contoh Kalimat (5-7 kata):** \"Kelinci melompat cepat di taman.\" / \"Burung kecil itu terbang tinggi di langit biru.\"\n* **Contoh Kalimat (8-10 kata):** \"Anak-anak bermain gembira di taman yang luas dan hijau.\" / \"Ibu sedang memasak kue cokelat yang sangat enak untuk kita.\"",
+                    "instruksi": "Aku akan mengucapkan sebuah kalimat, lalu kamu ulangi persis seperti yang aku katakan. Oke? Dengarkan baik-baik.\" Berikan 3-5 kalimat dengan panjang bervariasi (mulai dari 5 kata, meningkat hingga 8-10 kata jika anak berhasil).\n\n* -Contoh Kalimat (5-7 kata): *\"Kelinci melompat cepat di taman.\" / \"Burung kecil itu terbang tinggi di langit biru.\"*\n* -Contoh Kalimat (8-10 kata): *\"Anak-anak bermain gembira di taman yang luas dan hijau.\" / \"Ibu sedang memasak kue cokelat yang sangat enak untuk kita.\"*",
                     "rubrik": {1: "Sulit Mengulang", 2: "Ada Kesalahan/Kurang Jelas", 3: "Akurat & Jelas"},
                     "opsi_serupa": [
                         {
