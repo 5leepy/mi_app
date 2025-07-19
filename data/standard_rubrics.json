@@ -1,0 +1,59 @@
+{
+  "anak_rubrics": [
+    {
+      "skor_value": 1,
+      "descriptions": [
+        "Sangat Kesulitan/Tidak Mampu",
+        "Membutuhkan Bantuan Signifikan",
+        "Tidak Mampu Melakukan",
+        "Sangat Kesulitan/Terbatas",
+        "Hanya Coretan/Tidak Sesuai"
+      ]
+    },
+    {
+      "skor_value": 2,
+      "descriptions": [
+        "Melakukan dengan Beberapa Kesalahan",
+        "Membutuhkan Petunjuk/Waktu Lebih",
+        "Kurang Jelas/Kaku",
+        "Relevan tapi Sederhana"
+      ]
+    },
+    {
+      "skor_value": 3,
+      "descriptions": [
+        "Mampu dengan Akurat & Jelas",
+        "Tepat & Cepat",
+        "Gerakan Jelas & Berkoordinasi",
+        "Runtut & Cukup Detail",
+        "Mengidentifikasi Semua dengan Benar"
+      ]
+    }
+  ],
+  "ortu_rubrics": [
+    {
+      "skor_value": 0,
+      "descriptions": [
+        "Tidak Pernah/Tidak Terlihat",
+        "Sangat Jarang",
+        "Tidak Peka/Tidak Responsif"
+      ]
+    },
+    {
+      "skor_value": 0.5,
+      "descriptions": [
+        "Kadang-kadang/Jarang Terlihat",
+        "Cukup Sering",
+        "Terkadang Peka/Responsif"
+      ]
+    },
+    {
+      "skor_value": 1,
+      "descriptions": [
+        "Sering/Terlihat Jelas",
+        "Selalu/Ya",
+        "Sangat Peka/Responsif"
+      ]
+    }
+  ]
+}

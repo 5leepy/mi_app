@@ -20,35 +20,36 @@ def _load_all_data_from_files():
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     data_folder = os.path.join(base_dir, 'data')
 
+    # Inisialisasi dictionary kosong untuk menampung semua data yang dimuat
+    loaded_data = {}
+
     try:
         # Memuat data profil kecerdasan menonjol dari mi_profiles_up.json
         with open(os.path.join(data_folder, 'mi_profiles_up.json'), 'r', encoding='utf-8') as f:
-            profiles_up = json.load(f)
+            loaded_data['profiles_up'] = json.load(f)
 
         # Memuat data profil kecerdasan area pengembangan dari mi_profiles_low.json
         with open(os.path.join(data_folder, 'mi_profiles_low.json'), 'r', encoding='utf-8') as f:
-            profiles_low = json.load(f)
+            loaded_data['profiles_low'] = json.load(f)
 
         # Memuat data rekomendasi aktivitas untuk TK dari mi_aktivitas_tk.json
         with open(os.path.join(data_folder, 'mi_aktivitas_tk.json'), 'r', encoding='utf-8') as f:
-            activities = json.load(f)
+            loaded_data['activities'] = json.load(f)
 
-        # Memuat data bank soal dari bank_soal.json (INI PERUBAHAN UTAMA)
-        # File ini sekarang berisi semua pertanyaan asesmen dan rubriknya.
+        # Memuat data bank soal dari bank_soal.json
         with open(os.path.join(data_folder, 'bank_soal.json'), 'r', encoding='utf-8') as f:
-            bank_soal_data = json.load(f)
+            loaded_data['bank_soal'] = json.load(f)
+
+        # Memuat data rubrik standar dari standard_rubrics.json
+        with open(os.path.join(data_folder, 'standard_rubrics.json'), 'r', encoding='utf-8') as f:
+            loaded_data['standard_rubrics'] = json.load(f)
         
         # Log informasi bahwa data berhasil dimuat
-        print("[INFO] Data JSON (profil, aktivitas, dan bank soal) berhasil dimuat ke memori.")
+        print("[INFO] Data JSON (profil, aktivitas, bank soal, dan rubrik standar) berhasil dimuat ke memori.")
         
         # Mengembalikan semua data yang dimuat dalam satu dictionary.
         # Dictionary ini akan diakses melalui `current_app.config['MI_DATA']`.
-        return {
-            'profiles_up': profiles_up,
-            'profiles_low': profiles_low,
-            'activities': activities,
-            'bank_soal': bank_soal_data # Menyertakan data bank soal yang baru dimuat
-        }
+        return loaded_data
 
     except FileNotFoundError as e:
         # Menangani kasus jika ada file JSON yang tidak ditemukan
