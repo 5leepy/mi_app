@@ -1,0 +1,157 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Kelola Soal {{ intelligence_name }}{% endblock %}
+
+{% block content %}
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-center text-gray-800">Kelola Bank Soal: {{ intelligence_name }}</h1>
+        <p class="text-center text-gray-500 mt-1 text-sm">Atur pertanyaan observasi anak dan wawancara orang tua untuk kecerdasan {{ intelligence_name }}.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="p-3 mb-3 text-sm rounded-lg 
+            {% if category == 'success' %} bg-green-100 text-green-700 
+            {% elif category == 'error' %} bg-red-100 text-red-700
+            {% else %} bg-yellow-100 text-yellow-700 {% endif %}" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Navigasi Tab Jenjang -->
+    <div class="mb-4 border-b border-gray-200 admin-card p-2"> {# Menambahkan admin-card dan mengurangi padding #}
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="jenjangTab" role="tablist">
+            {% for jenjang in available_jenjang %}
+            <li class="mr-1" role="presentation"> {# Mengurangi margin-right #}
+                <button class="inline-block p-3 border-b-2 rounded-t-lg {% if loop.first %}text-blue-600 border-blue-600{% else %}border-transparent hover:text-gray-600 hover:border-gray-300{% endif %}" 
+                        id="tab-{{ jenjang }}" data-tabs-target="#panel-{{ jenjang }}" type="button" role="tab" aria-controls="panel-{{ jenjang }}" aria-selected="{% if loop.first %}true{% else %}false{% endif %}">
+                    {{ jenjang }}
+                </button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Konten Panel Tab Jenjang -->
+    <div id="jenjangTabContent">
+        {% for jenjang in available_jenjang %}
+        <div class="p-4 rounded-lg bg-gray-50 {% if not loop.first %}hidden{% endif %}" id="panel-{{ jenjang }}" role="tabpanel" aria-labelledby="tab-{{ jenjang }}">
+            <h2 class="text-xl font-bold text-gray-700 mb-4">Soal untuk Jenjang {{ jenjang }}</h2>
+
+            <!-- Bagian Soal Observasi Anak -->
+            <div class="mb-8 admin-card"> {# Menambahkan admin-card #}
+                <div class="p-4"> {# Padding untuk konten di dalam card #}
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Observasi Anak</h3>
+                    <div class="overflow-hidden"> {# Menghilangkan admin-card di sini #}
+                        <ul class="divide-y divide-gray-200">
+                            {% set anak_questions = intelligence_detail.get(jenjang, {}).get('anak', []) %}
+                            {% if anak_questions %}
+                                {% for question in anak_questions %}
+                                <li class="px-4 py-3 flex items-center justify-between"> {# Mengurangi padding #}
+                                    <div class="flex-grow">
+                                        <p class="text-gray-800 font-medium text-sm">{{ loop.index }}. {{ question.aktivitas }}</p> {# Mengurangi ukuran font #}
+                                        <p class="text-xs text-gray-500">{{ question.tujuan }}</p> {# Mengurangi ukuran font #}
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <a href="{{ url_for('admin.edit_add_question', intelligence_name=intelligence_name, jenjang=jenjang, sumber='anak', question_index=loop.index0) }}" class="text-blue-600 hover:text-blue-800 text-xs">Edit</a> {# Mengurangi ukuran font #}
+                                        <form action="{{ url_for('admin.delete_question', intelligence_name=intelligence_name, jenjang=jenjang, sumber='anak', question_index=loop.index0) }}" method="post" onsubmit="return confirm('Anda yakin ingin menghapus soal ini?');" class="inline">
+                                            <button type="submit" class="text-red-600 hover:text-red-800 text-xs bg-transparent border-none p-0 cursor-pointer">Hapus</button> {# Mengurangi ukuran font #}
+                                        </form>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="px-4 py-3 text-gray-500 italic text-center text-sm">Belum ada soal observasi anak untuk jenjang ini.</li> {# Mengurangi padding, ukuran font #}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 text-right pr-4 pb-4"> {# Menambahkan padding kanan dan bawah #}
+                    <a href="{{ url_for('admin.edit_add_question', intelligence_name=intelligence_name, jenjang=jenjang, sumber='anak') }}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                        + Tambah Soal Anak
+                    </a>
+                </div>
+            </div>
+
+            <!-- Bagian Soal Wawancara Orang Tua -->
+            <div class="admin-card"> {# Menambahkan admin-card #}
+                <div class="p-4"> {# Padding untuk konten di dalam card #}
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Wawancara Orang Tua</h3>
+                    <div class="overflow-hidden"> {# Menghilangkan admin-card di sini #}
+                        <ul class="divide-y divide-gray-200">
+                            {% set ortu_questions = intelligence_detail.get('ortu', []) %}
+                            {% if ortu_questions %}
+                                {% for question in ortu_questions %}
+                                <li class="px-4 py-3 flex items-center justify-between"> {# Mengurangi padding #}
+                                    <div class="flex-grow">
+                                        <p class="text-gray-800 font-medium text-sm">{{ loop.index }}. {{ question.pertanyaan }}</p> {# Mengurangi ukuran font #}
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <a href="{{ url_for('admin.edit_add_question', intelligence_name=intelligence_name, jenjang=jenjang, sumber='ortu', question_index=loop.index0) }}" class="text-blue-600 hover:text-blue-800 text-xs">Edit</a> {# Mengurangi ukuran font #}
+                                        <form action="{{ url_for('admin.delete_question', intelligence_name=intelligence_name, jenjang=jenjang, sumber='ortu', question_index=loop.index0) }}" method="post" onsubmit="return confirm('Anda yakin ingin menghapus soal ini?');" class="inline">
+                                            <button type="submit" class="text-red-600 hover:text-red-800 text-xs bg-transparent border-none p-0 cursor-pointer">Hapus</button> {# Mengurangi ukuran font #}
+                                        </form>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="px-4 py-3 text-gray-500 italic text-center text-sm">Belum ada soal wawancara orang tua.</li> {# Mengurangi padding, ukuran font #}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 text-right pr-4 pb-4"> {# Menambahkan padding kanan dan bawah #}
+                    <a href="{{ url_for('admin.edit_add_question', intelligence_name=intelligence_name, jenjang=jenjang, sumber='ortu') }}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                        + Tambah Soal Orang Tua
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-8 pt-4 border-t flex justify-start">
+        <a href="{{ url_for('admin.bank_soal_index') }}" class="text-sm text-gray-600 hover:underline">&larr; Kembali ke Daftar Kecerdasan</a>
+    </div>
+
+    <script>
+        // JavaScript untuk fungsionalitas tab
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('#jenjangTab button');
+            const tabPanels = document.querySelectorAll('#jenjangTabContent > div');
+
+            // Fungsi untuk mengaktifkan tab
+            function activateTab(button) {
+                tabs.forEach(tab => {
+                    tab.classList.remove('text-blue-600', 'border-blue-600');
+                    tab.classList.add('border-transparent', 'hover:text-gray-600', 'hover:border-gray-300');
+                    tab.setAttribute('aria-selected', 'false');
+                });
+                tabPanels.forEach(panel => panel.classList.add('hidden'));
+
+                const targetPanel = document.querySelector(button.dataset.tabsTarget);
+                if (targetPanel) {
+                    targetPanel.classList.remove('hidden');
+                }
+                button.classList.add('text-blue-600', 'border-blue-600');
+                button.classList.remove('border-transparent', 'hover:text-gray-600', 'hover:border-gray-300');
+                button.setAttribute('aria-selected', 'true');
+            }
+
+            // Tambahkan event listener ke setiap tombol tab
+            tabs.forEach(button => {
+                button.addEventListener('click', () => {
+                    activateTab(button);
+                });
+            });
+
+            // Aktifkan tab pertama secara default saat halaman dimuat
+            if (tabs.length > 0) {
+                activateTab(tabs[0]);
+            }
+        });
+    </script>
+{% endblock %}

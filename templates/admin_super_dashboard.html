@@ -1,17 +1,17 @@
-{% extends "base.html" %}
+{% extends "base_admin.html" %}
 
-{% block title %}Super Admin Dashboard{% endblock %}
+{% block title %}Dasbor Admin{% endblock %} {# Ubah judul jadi lebih ringkas #}
 
 {% block content %}
-<div class="mb-8">
-    <h1 class="text-3xl font-bold text-center text-gray-800">Super Admin Dashboard</h1>
-    <p class="text-center text-gray-500 mt-2">Kelola semua data mentah aplikasi.</p>
+<div class="mb-6"> {# Mengurangi margin-bottom #}
+    <h1 class="text-2xl font-bold text-gray-800">Dasbor Admin</h1> {# Mengurangi ukuran font #}
+    <p class="text-gray-500 mt-1 text-sm">Kelola semua data mentah aplikasi dan siswa.</p> {# Mengurangi ukuran font #}
 </div>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}
-      <div class="p-4 mb-4 text-sm rounded-lg 
+      <div class="p-3 mb-3 text-sm rounded-lg 
         {% if category == 'success' %} bg-green-100 text-green-700 
         {% elif category == 'error' %} bg-red-100 text-red-700
         {% else %} bg-yellow-100 text-yellow-700 {% endif %}" role="alert">
@@ -21,13 +21,13 @@
   {% endif %}
 {% endwith %}
 
-<div class="mb-4 p-4 bg-gray-50 rounded-lg flex justify-between items-center">
-    <p class="text-sm text-gray-600">Total Siswa: <strong>{{ total_siswa }}</strong></p>
-    <div class="flex items-center space-x-4"> {# Tambahkan div ini untuk mengatur jarak tombol #}
-        {# --- Tombol Baru untuk Ekspor JSON --- #}
+<div class="mb-4 p-4 bg-gray-50 rounded-lg flex justify-between items-center text-sm"> {# Mengurangi padding, ukuran font #}
+    <p class="text-gray-600">Total Siswa: <strong class="font-semibold">{{ total_siswa }}</strong></p>
+    <div class="flex items-center space-x-3"> {# Mengurangi spacing #}
+        {# --- Tombol Ekspor JSON --- #}
         <div class="relative group">
-            <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                Ekspor Data Master <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block ml-1 -mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            <button type="button" class="px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                Ekspor Data <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block ml-1 -mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
             </button>
             <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
                 <a href="{{ url_for('admin.export_json', filename='bank_soal.json') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bank Soal</a>
@@ -36,52 +36,57 @@
                 <a href="{{ url_for('admin.export_json', filename='mi_aktivitas_tk.json') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Aktivitas TK</a>
             </div>
         </div>
+        
+        {# --- Tombol Manajemen Bank Soal --- #}
+        <a href="{{ url_for('admin.bank_soal_index') }}" class="px-3 py-1.5 border border-blue-300 rounded-md text-sm font-medium text-blue-700 bg-blue-50 hover:bg-blue-100">
+            Kelola Bank Soal
+        </a>
 
-        <button id="toggleDeleteModeBtn" onclick="toggleDeleteMode()" class="px-4 py-2 border border-red-300 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100">
+        <button id="toggleDeleteModeBtn" onclick="toggleDeleteMode()" class="px-3 py-1.5 border border-red-300 rounded-md text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100">
             Aktifkan Mode Hapus
         </button>
     </div>
 </div>
 
 <form id="bulkActionForm" method="post" action="{{ url_for('admin.bulk_delete_siswa') }}" onsubmit="return confirm('Anda yakin ingin menghapus data yang dipilih? Aksi ini tidak dapat dibatalkan.')">
-    <div class="overflow-x-auto bg-white rounded-lg shadow">
-        <table class="min-w-full divide-y divide-gray-200">
+    <div class="overflow-x-auto admin-card"> {# Menggunakan class admin-card #}
+        <table class="min-w-full divide-y divide-gray-200 admin-table"> {# Menggunakan class admin-table #}
             <thead class="bg-gray-50">
                 <tr>
                     <th scope="col" class="delete-col hidden px-4 py-3">
                         <input type="checkbox" id="selectAll" onclick="toggleAllCheckboxes(this)">
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Siswa</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Wali</th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Bobot (A/W)</th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Laporan</th>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Siswa</th> {# Mengurangi padding #}
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Wali</th>
+                    <th class="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Bobot (A/W)</th>
+                    <th class="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Laporan</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 {% for siswa in siswa_list %}
                 <tr>
-                    <td class="delete-col hidden px-4 py-4">
+                    <td class="delete-col hidden px-4 py-3"> {# Mengurangi padding #}
                         <input type="checkbox" name="selected_ids" value="{{ siswa.id }}" class="row-checkbox">
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ siswa.nama }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ siswa.nama_ortu or '-' }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                    <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{{ siswa.nama }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{{ siswa.nama_ortu or '-' }}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-center text-sm text-gray-500">
                         {% if siswa.bobot_anak is not none %}{{ '%d' % (siswa.bobot_anak * 100) }}/{{ '%d' % ((1 - siswa.bobot_anak) * 100) }}{% else %}N/A{% endif %}%
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                    <td class="px-4 py-3 whitespace-nowrap text-center text-sm font-medium">
                         <a href="{{ url_for('asesmen.tampil_laporan', url_slug=siswa.url_slug) }}" class="text-blue-600 hover:text-blue-900" target="_blank">Lihat</a>
                     </td>
                 </tr>
                 {% else %}
-                <tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">Belum ada data.</td></tr>
+                <tr><td colspan="5" class="px-4 py-3 text-center text-gray-500">Belum ada data.</td></tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <div id="deleteActionContainer" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex justify-between items-center">
-        <span id="selectedCount" class="text-sm font-medium text-red-700">0 siswa dipilih</span>
-        <button type="submit" class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700">
+    <div id="deleteActionContainer" class="hidden mt-4 p-3 bg-red-50 border border-red-200 rounded-lg flex justify-between items-center text-sm"> {# Mengurangi padding, ukuran font #}
+        <span id="selectedCount" class="font-medium text-red-700">0 siswa dipilih</span>
+        <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700">
             Hapus yang Dipilih
         </button>
     </div>
@@ -89,15 +94,15 @@
 
 {% if total_pages > 1 %}
 <div class="mt-6 flex justify-between items-center text-sm">
-    <div>Halaman <strong>{{ current_page }}</strong> dari <strong>{{ total_pages }}</strong></div>
+    <div>Halaman <strong class="font-semibold">{{ current_page }}</strong> dari <strong class="font-semibold">{{ total_pages }}</strong></div>
     <div class="flex space-x-2">
-        {% if current_page > 1 %}<a href="{{ url_for('admin.dashboard', page=current_page - 1) }}" class="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50">&laquo; Sebelumnya</a>{% endif %}
-        {% if current_page < total_pages %}<a href="{{ url_for('admin.dashboard', page=current_page + 1) }}" class="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50">Berikutnya &raquo;</a>{% endif %}
+        {% if current_page > 1 %}<a href="{{ url_for('admin.dashboard', page=current_page - 1) }}" class="px-3 py-1.5 border border-gray-300 rounded-md bg-white hover:bg-gray-50 text-sm">&laquo; Sebelumnya</a>{% endif %}
+        {% if current_page < total_pages %}<a href="{{ url_for('admin.dashboard', page=current_page + 1) }}" class="px-3 py-1.5 border border-gray-300 rounded-md bg-white hover:bg-gray-50 text-sm">Berikutnya &raquo;</a>{% endif %}
     </div>
 </div>
 {% endif %}
 
 <!-- Script eksternal untuk fungsionalitas hapus massal siswa -->
-<script src="/static/js/admin_bulk_delete.js"></script>
+<script src="{{ url_for('static', filename='js/admin_bulk_delete.js') }}"></script>
 
 {% endblock %}

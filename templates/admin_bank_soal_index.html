@@ -1,0 +1,43 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Manajemen Bank Soal{% endblock %}
+
+{% block content %}
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-center text-gray-800">Manajemen Bank Soal Asesmen</h1>
+        <p class="text-center text-gray-500 mt-1 text-sm">Pilih jenis kecerdasan untuk mengelola soal-soal observasi dan wawancara.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="p-3 mb-3 text-sm rounded-lg 
+            {% if category == 'success' %} bg-green-100 text-green-700 
+            {% elif category == 'error' %} bg-red-100 text-red-700
+            {% else %} bg-yellow-100 text-yellow-700 {% endif %}" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="admin-card overflow-hidden"> {# Menggunakan admin-card #}
+        <ul class="divide-y divide-gray-200">
+            {% for intel in intelligences %}
+            <li class="px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"> {# Mengurangi padding #}
+                <div class="flex-grow">
+                    <h3 class="text-base font-bold text-gray-800">{{ intel }}</h3> {# Mengurangi ukuran font #}
+                    <p class="text-xs text-gray-500">Kelola pertanyaan observasi anak dan wawancara orang tua.</p> {# Mengurangi ukuran font #}
+                </div>
+                <a href="{{ url_for('admin.manage_intelligence_questions', intelligence_name=intel) }}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-transform transform hover:scale-105">
+                    Kelola Soal &rarr;
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="mt-8 pt-4 border-t flex justify-start"> {# Mengurangi margin-top, padding-top #}
+        <a href="{{ url_for('admin.dashboard') }}" class="text-sm text-gray-600 hover:underline">&larr; Kembali ke Dasbor Admin</a>
+    </div>
+{% endblock %}
