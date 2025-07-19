@@ -71,8 +71,7 @@
             }
           ]
         }
-      ],
-      "max_anak_score": 9
+      ]
     },
     "ortu": [
       {
@@ -103,8 +102,7 @@
           "1": "Ya"
         }
       }
-    ],
-    "max_ortu_score": 4
+    ]
   },
   "Logis-Matematis": {
     "TK": {
@@ -178,8 +176,7 @@
             }
           ]
         }
-      ],
-      "max_anak_score": 9
+      ]
     },
     "ortu": [
       {
@@ -210,8 +207,7 @@
           "1": "Ya"
         }
       }
-    ],
-    "max_ortu_score": 4
+    ]
   },
   "Spasial": {
     "TK": {
@@ -285,8 +281,7 @@
             }
           ]
         }
-      ],
-      "max_anak_score": 9
+      ]
     },
     "ortu": [
       {
@@ -317,8 +312,7 @@
           "1": "Ya"
         }
       }
-    ],
-    "max_ortu_score": 4
+    ]
   },
   "Kinestetik": {
     "TK": {
@@ -392,8 +386,7 @@
             }
           ]
         }
-      ],
-      "max_anak_score": 9
+      ]
     },
     "ortu": [
       {
@@ -424,8 +417,7 @@
           "1": "Ya"
         }
       }
-    ],
-    "max_ortu_score": 4
+    ]
   },
   "Musikal": {
     "TK": {
@@ -499,8 +491,7 @@
             }
           ]
         }
-      ],
-      "max_anak_score": 9
+      ]
     },
     "ortu": [
       {
@@ -531,8 +522,7 @@
           "1": "Ya"
         }
       }
-    ],
-    "max_ortu_score": 4
+    ]
   },
   "Interpersonal": {
     "TK": {
@@ -606,8 +596,7 @@
             }
           ]
         }
-      ],
-      "max_anak_score": 9
+      ]
     },
     "ortu": [
       {
@@ -638,8 +627,7 @@
           "1": "Ya"
         }
       }
-    ],
-    "max_ortu_score": 4
+    ]
   },
   "Intrapersonal": {
     "TK": {
@@ -713,8 +701,7 @@
             }
           ]
         }
-      ],
-      "max_anak_score": 9
+      ]
     },
     "ortu": [
       {
@@ -745,8 +732,7 @@
           "1": "Ya"
         }
       }
-    ],
-    "max_ortu_score": 4
+    ]
   },
   "Naturalis": {
     "TK": {
@@ -797,8 +783,7 @@
             }
           ]
         }
-      ],
-      "max_anak_score": 6
+      ]
     },
     "ortu": [
       {
@@ -829,7 +814,6 @@
           "1": "Ya"
         }
       }
-    ],
-    "max_ortu_score": 4
+    ]
   }
 }
