@@ -12,6 +12,9 @@ __pycache__/
 # Virtual environment
 venv/
 
+# direnv
+.envrc
+
 # File database SQLite
 *.sqlite
 *.sqlite3

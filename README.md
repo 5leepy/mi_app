@@ -42,7 +42,7 @@ Proyek ini memiliki struktur yang modular untuk memisahkan logika, data, dan tam
 
 ```bash
 # Buat virtual environment (opsional tapi direkomendasikan)
-python -m venv venv
+python3 -m venv venv
 
 # Aktifkan virtual environment
 # Windows
